@@ -72,7 +72,7 @@ final class FragmentKitExtensionTest extends TestCase
                 ],
                 'sentry' => [
                     'enabled' => false,
-                    'level' => 'error',
+                    'level'   => 'error',
                 ],
             ],
         ], $container);

@@ -114,5 +114,5 @@ return (new Config())
     ->setFinder(
         (new Finder())
             ->in(__DIR__)
-            ->exclude(['vendor', 'var', 'coverage', '.phpunit.cache'])
+            ->exclude(['vendor', 'var', 'coverage', '.phpunit.cache', 'demo'])
     );

@@ -11,6 +11,7 @@ use Nowo\FragmentKitBundle\Service\FragmentFailureContextFactory;
 use Nowo\FragmentKitBundle\Service\FragmentFailureRenderer;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
+use RuntimeException;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpKernel\Controller\ControllerReference;
 use Symfony\Component\HttpKernel\Fragment\FragmentHandler;
@@ -20,8 +21,8 @@ final class ResilientFragmentHandlerTest extends TestCase
 {
     public function testRenderReturnsFallbackHtmlAndReportsWhenIgnoreErrorsIsTrue(): void
     {
-        $exception = new \RuntimeException('Error when rendering "https://example.test/fragment" (Status code is 403).');
-        $inner = $this->createMock(FragmentHandler::class);
+        $exception = new RuntimeException('Error when rendering "https://example.test/fragment" (Status code is 403).');
+        $inner     = $this->createMock(FragmentHandler::class);
         $inner->method('render')->willThrowException($exception);
 
         $context = new FragmentFailureContext(
@@ -62,8 +63,8 @@ final class ResilientFragmentHandlerTest extends TestCase
 
     public function testRenderRethrowsWhenIgnoreErrorsIsFalse(): void
     {
-        $exception = new \RuntimeException('Error when rendering "https://example.test/fragment" (Status code is 403).');
-        $inner = $this->createMock(FragmentHandler::class);
+        $exception = new RuntimeException('Error when rendering "https://example.test/fragment" (Status code is 403).');
+        $inner     = $this->createMock(FragmentHandler::class);
         $inner->method('render')->willThrowException($exception);
 
         $handler = new ResilientFragmentHandler(

@@ -9,6 +9,9 @@ use Nowo\FragmentKitBundle\Model\FragmentFailureContext;
 use Sentry\Severity;
 use Sentry\State\HubInterface;
 
+/**
+ * Reports suppressed fragment failures to Sentry when a Hub is available.
+ */
 class SentryFragmentFailureReporter implements FragmentFailureReporterInterface
 {
     /**
@@ -22,11 +25,11 @@ class SentryFragmentFailureReporter implements FragmentFailureReporterInterface
 
     public function report(FragmentFailureContext $context): void
     {
-        if (!$this->hub instanceof HubInterface || !($this->config['enabled'] ?? true)) {
+        if (!$this->hub instanceof HubInterface || !$this->config['enabled']) {
             return;
         }
 
-        $severity = $this->resolveSeverity($this->config['level'] ?? 'warning');
+        $severity = $this->resolveSeverity($this->config['level']);
 
         $this->hub->withScope(function ($scope) use ($context, $severity): void {
             $scope->setLevel($severity);
@@ -34,23 +37,23 @@ class SentryFragmentFailureReporter implements FragmentFailureReporterInterface
             $scope->setTag('fragment.status_code', (string) $context->statusCode);
             $scope->setTag('fragment.suppressed', 'true');
 
-            if (null !== $context->route) {
+            if ($context->route !== null) {
                 $scope->setExtra('fragment.route', $context->route);
             }
 
-            if (null !== $context->parentRoute) {
+            if ($context->parentRoute !== null) {
                 $scope->setExtra('fragment.parent_route', $context->parentRoute);
             }
 
-            if (null !== $context->parentUri) {
+            if ($context->parentUri !== null) {
                 $scope->setExtra('fragment.parent_uri', $context->parentUri);
             }
 
-            if (null !== $context->fragmentUri) {
+            if ($context->fragmentUri !== null) {
                 $scope->setExtra('fragment.uri', $context->fragmentUri);
             }
 
-            if (null !== $context->controller) {
+            if ($context->controller !== null) {
                 $scope->setExtra('fragment.controller', $context->controller);
             }
 
@@ -62,7 +65,7 @@ class SentryFragmentFailureReporter implements FragmentFailureReporterInterface
     {
         return match (strtolower($level)) {
             'debug' => Severity::debug(),
-            'info' => Severity::info(),
+            'info'  => Severity::info(),
             'error' => Severity::error(),
             'fatal' => Severity::fatal(),
             default => Severity::warning(),

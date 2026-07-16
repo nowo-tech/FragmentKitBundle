@@ -17,7 +17,7 @@ class Configuration implements ConfigurationInterface
     public function getConfigTreeBuilder(): TreeBuilder
     {
         $treeBuilder = new TreeBuilder(self::ALIAS);
-        $root = $treeBuilder->getRootNode();
+        $root        = $treeBuilder->getRootNode();
 
         $root
             ->children()

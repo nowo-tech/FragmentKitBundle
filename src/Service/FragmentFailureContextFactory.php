@@ -8,7 +8,11 @@ use Nowo\FragmentKitBundle\Model\FragmentFailureContext;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpKernel\Exception\HttpException;
+use Throwable;
 
+/**
+ * Builds {@see FragmentFailureContext} from an exception and the request stack.
+ */
 class FragmentFailureContextFactory
 {
     public function __construct(
@@ -16,11 +20,11 @@ class FragmentFailureContextFactory
     ) {
     }
 
-    public function fromException(\Throwable $exception): FragmentFailureContext
+    public function fromException(Throwable $exception): FragmentFailureContext
     {
-        $statusCode = $this->resolveStatusCode($exception);
-        $fragmentUri = $this->resolveFragmentUri($exception);
-        $request = $this->requestStack->getCurrentRequest();
+        $statusCode    = $this->resolveStatusCode($exception);
+        $fragmentUri   = $this->resolveFragmentUri($exception);
+        $request       = $this->requestStack->getCurrentRequest();
         $parentRequest = $this->requestStack->getParentRequest();
 
         return new FragmentFailureContext(
@@ -34,11 +38,11 @@ class FragmentFailureContextFactory
         );
     }
 
-    private function resolveStatusCode(\Throwable $exception): int
+    private function resolveStatusCode(Throwable $exception): int
     {
         $current = $exception;
 
-        while ($current instanceof \Throwable) {
+        while ($current instanceof Throwable) {
             if ($current instanceof HttpException) {
                 return $current->getStatusCode();
             }
@@ -53,7 +57,7 @@ class FragmentFailureContextFactory
         return 500;
     }
 
-    private function resolveFragmentUri(\Throwable $exception): ?string
+    private function resolveFragmentUri(Throwable $exception): ?string
     {
         if (preg_match('/Error when rendering "(.+)" \(Status code is \d+\)/', $exception->getMessage(), $matches) === 1) {
             return $matches[1];

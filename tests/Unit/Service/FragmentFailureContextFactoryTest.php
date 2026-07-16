@@ -7,6 +7,7 @@ namespace Nowo\FragmentKitBundle\Tests\Unit\Service;
 use Nowo\FragmentKitBundle\Service\FragmentFailureContextFactory;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
+use RuntimeException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpKernel\Exception\HttpException;
@@ -27,7 +28,7 @@ final class FragmentFailureContextFactoryTest extends TestCase
         $stack->push($parent);
         $stack->push($child);
 
-        $exception = new \RuntimeException(
+        $exception = new RuntimeException(
             'Error when rendering "https://example.test/fragment" (Status code is 403).',
             0,
             new HttpException(403),

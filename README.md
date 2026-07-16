@@ -71,6 +71,15 @@ make test
 make release-check
 ```
 
+### Tests and coverage
+
+```bash
+make test
+make test-coverage
+```
+
+Latest measured PHP line coverage: **92.91%** (see `coverage-php.txt` after `make test-coverage`).
+
 Demo:
 
 ```bash

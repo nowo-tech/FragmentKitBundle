@@ -7,6 +7,9 @@ namespace Nowo\FragmentKitBundle\Service;
 use Nowo\FragmentKitBundle\Model\FragmentFailureContext;
 use Twig\Environment;
 
+/**
+ * Renders Twig fallback content for a suppressed fragment failure.
+ */
 class FragmentFailureRenderer
 {
     public function __construct(
@@ -17,18 +20,18 @@ class FragmentFailureRenderer
 
     public function render(FragmentFailureContext $context): string
     {
-        if (null === $this->template || '' === $this->template) {
+        if ($this->template === null || $this->template === '') {
             return '';
         }
 
         return $this->twig->render($this->template, [
-            'status_code' => $context->statusCode,
+            'status_code'  => $context->statusCode,
             'fragment_uri' => $context->fragmentUri,
-            'route' => $context->route,
+            'route'        => $context->route,
             'parent_route' => $context->parentRoute,
-            'parent_uri' => $context->parentUri,
-            'controller' => $context->controller,
-            'exception' => $context->exception,
+            'parent_uri'   => $context->parentUri,
+            'controller'   => $context->controller,
+            'exception'    => $context->exception,
         ]);
     }
 }

@@ -12,6 +12,7 @@ use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\Extension;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
+
 /**
  * Loads Fragment Kit services and applies enabled / Sentry reporter wiring.
  */
@@ -26,11 +27,11 @@ class FragmentKitExtension extends Extension
     {
         $config = $this->processConfiguration(new Configuration(), $configs);
 
-        $container->setParameter(Configuration::ALIAS.'.enabled', $config['enabled']);
-        $container->setParameter(Configuration::ALIAS.'.fallback.template', $config['fallback']['template'] ?: null);
-        $container->setParameter(Configuration::ALIAS.'.sentry', $config['sentry']);
+        $container->setParameter(Configuration::ALIAS . '.enabled', $config['enabled']);
+        $container->setParameter(Configuration::ALIAS . '.fallback.template', $config['fallback']['template'] ?: null);
+        $container->setParameter(Configuration::ALIAS . '.sentry', $config['sentry']);
 
-        $loader = new YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
+        $loader = new YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
         $loader->load('services.yaml');
 
         if (!$config['enabled']) {

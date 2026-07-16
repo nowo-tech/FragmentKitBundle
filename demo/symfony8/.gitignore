@@ -3,3 +3,7 @@ var/
 .env
 .env.local
 .env.*.local
+.env.dev
+composer.lock
+symfony.lock
+.phpunit.cache/

@@ -7,10 +7,12 @@ namespace Nowo\FragmentKitBundle\HttpKernel\Fragment;
 use Nowo\FragmentKitBundle\Contract\FragmentFailureReporterInterface;
 use Nowo\FragmentKitBundle\Service\FragmentFailureContextFactory;
 use Nowo\FragmentKitBundle\Service\FragmentFailureRenderer;
+use RuntimeException;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpKernel\Controller\ControllerReference;
 use Symfony\Component\HttpKernel\Fragment\FragmentHandler;
 use Symfony\Component\HttpKernel\Fragment\FragmentRendererInterface;
+use Throwable;
 
 /**
  * Decorates fragment.handler so Twig {ignore_errors: true} also tolerates HTTP error
@@ -25,7 +27,7 @@ class ResilientFragmentHandler extends FragmentHandler
         private readonly FragmentFailureRenderer $failureRenderer,
         private readonly FragmentFailureReporterInterface $failureReporter,
     ) {
-        parent::__construct($requestStack, [], false);
+        parent::__construct($requestStack);
     }
 
     public function addRenderer(FragmentRendererInterface $renderer): void
@@ -33,12 +35,15 @@ class ResilientFragmentHandler extends FragmentHandler
         $this->inner->addRenderer($renderer);
     }
 
+    /**
+     * @param array<string, mixed> $options
+     */
     public function render(string|ControllerReference $uri, string $renderer = 'inline', array $options = []): ?string
     {
         try {
             return $this->inner->render($uri, $renderer, $options);
-        } catch (\RuntimeException $exception) {
-            if (!$this->shouldIgnoreErrors($options, $exception)) {
+        } catch (Throwable $exception) {
+            if (!$exception instanceof RuntimeException || !$this->shouldIgnoreErrors($options, $exception)) {
                 throw $exception;
             }
 
@@ -49,7 +54,10 @@ class ResilientFragmentHandler extends FragmentHandler
         }
     }
 
-    private function shouldIgnoreErrors(array $options, \RuntimeException $exception): bool
+    /**
+     * @param array<string, mixed> $options
+     */
+    private function shouldIgnoreErrors(array $options, RuntimeException $exception): bool
     {
         if (!($options['ignore_errors'] ?? false)) {
             return false;

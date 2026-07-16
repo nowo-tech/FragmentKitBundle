@@ -7,6 +7,9 @@ namespace Nowo\FragmentKitBundle\Null;
 use Nowo\FragmentKitBundle\Contract\FragmentFailureReporterInterface;
 use Nowo\FragmentKitBundle\Model\FragmentFailureContext;
 
+/**
+ * No-op reporter used when Sentry is disabled or unavailable.
+ */
 class NullFragmentFailureReporter implements FragmentFailureReporterInterface
 {
     public function report(FragmentFailureContext $context): void
