@@ -7,6 +7,7 @@ namespace Nowo\FragmentKitBundle\Tests\Unit\Sentry;
 use Nowo\FragmentKitBundle\Model\FragmentFailureContext;
 use Nowo\FragmentKitBundle\Sentry\SentryFragmentFailureReporter;
 use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
 use Sentry\State\HubInterface;
@@ -60,5 +61,35 @@ final class SentryFragmentFailureReporterTest extends TestCase
 
         $reporter = new SentryFragmentFailureReporter($hub, ['enabled' => true, 'level' => 'error']);
         $reporter->report($context);
+    }
+
+    #[DataProvider('provideSeverityLevels')]
+    public function testReportResolvesAllSeverityLevels(string $level): void
+    {
+        $scope = $this->createMock(Scope::class);
+        $scope->expects($this->once())->method('setLevel');
+
+        $hub = $this->createMock(HubInterface::class);
+        $hub->expects($this->once())
+            ->method('withScope')
+            ->willReturnCallback(static function (callable $callback) use ($scope): void {
+                $callback($scope);
+            });
+        $hub->expects($this->once())->method('captureException');
+
+        $reporter = new SentryFragmentFailureReporter($hub, ['enabled' => true, 'level' => $level]);
+        $reporter->report(new FragmentFailureContext(new RuntimeException('x'), 500));
+    }
+
+    /**
+     * @return iterable<string, array{0: string}>
+     */
+    public static function provideSeverityLevels(): iterable
+    {
+        yield 'debug' => ['debug'];
+        yield 'info' => ['info'];
+        yield 'warning' => ['warning'];
+        yield 'fatal' => ['fatal'];
+        yield 'unknown-defaults-to-warning' => ['notice'];
     }
 }

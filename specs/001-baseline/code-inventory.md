@@ -1,40 +1,74 @@
 # Code inventory — FragmentKitBundle baseline
 
 **Spec**: [`spec.md`](spec.md)  
-**Updated**: 2026-07-16
+**Last audited**: 2026-07-16  
+**Production units**: 13
 
-## Package layout
+## Coverage summary
+
+| Category | Files | Mapped FR-* |
+|----------|------:|-------------|
+| Bundle / DI | 3 | FR-FK-001, FR-FK-007 |
+| HTTP kernel | 1 | FR-FK-002, FR-FK-003 |
+| Model | 1 | FR-FK-004 |
+| Services | 2 | FR-FK-004, FR-FK-005 |
+| Reporting | 3 | FR-FK-006 |
+| Resources (config + view) | 2 | FR-FK-005, FR-FK-007 |
+| Flex recipe (shipped) | 1 | FR-FK-007 |
+| **Total** | **13** | — |
+
+## Bundle / DI
+
+| Path | Requirement IDs |
+|------|-----------------|
+| `src/NowoFragmentKitBundle.php` | FR-FK-001, FR-FK-007 |
+| `src/DependencyInjection/Configuration.php` | FR-FK-001 |
+| `src/DependencyInjection/FragmentKitExtension.php` | FR-FK-001, FR-FK-006, FR-FK-007 |
+
+## HTTP kernel
+
+| Path | Requirement IDs |
+|------|-----------------|
+| `src/HttpKernel/Fragment/ResilientFragmentHandler.php` | FR-FK-002, FR-FK-003 |
+
+## Model
+
+| Path | Requirement IDs |
+|------|-----------------|
+| `src/Model/FragmentFailureContext.php` | FR-FK-004 |
+
+## Services
+
+| Path | Requirement IDs |
+|------|-----------------|
+| `src/Service/FragmentFailureContextFactory.php` | FR-FK-004 |
+| `src/Service/FragmentFailureRenderer.php` | FR-FK-005 |
+
+## Reporting
+
+| Path | Requirement IDs |
+|------|-----------------|
+| `src/Contract/FragmentFailureReporterInterface.php` | FR-FK-006 |
+| `src/Null/NullFragmentFailureReporter.php` | FR-FK-006 |
+| `src/Sentry/SentryFragmentFailureReporter.php` | FR-FK-006 |
+
+## Resources
+
+| Path | Requirement IDs |
+|------|-----------------|
+| `src/Resources/config/services.yaml` | FR-FK-002, FR-FK-007 |
+| `src/Resources/views/fragment_failure.html.twig` | FR-FK-005 |
+
+## Flex recipe
+
+| Path | Requirement IDs |
+|------|-----------------|
+| `.symfony/recipe/nowo-tech/fragment-kit-bundle/1.0.0/config/packages/nowo_fragment_kit.yaml` | FR-FK-007 |
+
+## Tests (not counted as production)
 
 | Path | Role |
 |------|------|
-| `src/NowoFragmentKitBundle.php` | Bundle entry; exposes `FragmentKitExtension` |
-| `src/DependencyInjection/Configuration.php` | Config tree |
-| `src/DependencyInjection/FragmentKitExtension.php` | Loads services; toggles decorator / reporter |
-| `src/HttpKernel/Fragment/ResilientFragmentHandler.php` | Decorator for `fragment.handler` |
-| `src/Model/FragmentFailureContext.php` | Failure DTO |
-| `src/Service/FragmentFailureContextFactory.php` | Builds context from exception + request stack |
-| `src/Service/FragmentFailureRenderer.php` | Twig fallback rendering |
-| `src/Contract/FragmentFailureReporterInterface.php` | Reporter contract |
-| `src/Null/NullFragmentFailureReporter.php` | No-op reporter |
-| `src/Sentry/SentryFragmentFailureReporter.php` | Sentry reporter |
-| `src/Resources/config/services.yaml` | DI wiring |
-| `src/Resources/views/fragment_failure.html.twig` | Default empty fallback |
-| `.symfony/recipe/.../nowo_fragment_kit.yaml` | Flex recipe config |
-
-## Tests
-
-| Path | Coverage focus |
-|------|----------------|
-| `tests/Unit/DependencyInjection/ConfigurationTest.php` | Defaults |
-| `tests/Unit/HttpKernel/Fragment/ResilientFragmentHandlerTest.php` | Catch vs rethrow |
-| `tests/Unit/Service/FragmentFailureContextFactoryTest.php` | Context extraction |
-| `tests/Integration/DependencyInjection/FragmentKitExtensionTest.php` | Container compile |
-
-## Demo
-
-| Path | Role |
-|------|------|
-| `demo/symfony8/` | FrankenPHP Symfony 8 app |
-| `demo/symfony8/src/Controller/DemoController.php` | Home + OK/403/404 fragments |
-| `demo/symfony8/templates/demo/home.html.twig` | Parent page with `render(..., {ignore_errors: true})` |
-| `demo/symfony8/templates/fragment/unavailable.html.twig` | Visible fallback |
+| `tests/Unit/**` | Unit coverage for FR-FK-* |
+| `tests/Integration/**` | Extension / DI compile |
+| `demo/symfony8/` | Integrator demo (excluded from package archive) |

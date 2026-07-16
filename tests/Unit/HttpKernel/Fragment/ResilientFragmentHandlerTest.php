@@ -78,4 +78,39 @@ final class ResilientFragmentHandlerTest extends TestCase
         $this->expectExceptionObject($exception);
         $handler->render(new ControllerReference('App\\Controller\\Foo::bar'), 'inline', ['ignore_errors' => false]);
     }
+
+    public function testAddRendererDelegatesToInnerHandler(): void
+    {
+        $inner    = $this->createMock(FragmentHandler::class);
+        $renderer = $this->createMock(\Symfony\Component\HttpKernel\Fragment\FragmentRendererInterface::class);
+        $inner->expects($this->once())->method('addRenderer')->with($renderer);
+
+        $handler = new ResilientFragmentHandler(
+            $inner,
+            new RequestStack(),
+            $this->createMock(FragmentFailureContextFactory::class),
+            $this->createMock(FragmentFailureRenderer::class),
+            $this->createMock(FragmentFailureReporterInterface::class),
+        );
+
+        $handler->addRenderer($renderer);
+    }
+
+    public function testRenderRethrowsNonMatchingRuntimeExceptionEvenWithIgnoreErrors(): void
+    {
+        $exception = new RuntimeException('Unrelated runtime failure');
+        $inner     = $this->createMock(FragmentHandler::class);
+        $inner->method('render')->willThrowException($exception);
+
+        $handler = new ResilientFragmentHandler(
+            $inner,
+            new RequestStack(),
+            $this->createMock(FragmentFailureContextFactory::class),
+            $this->createMock(FragmentFailureRenderer::class),
+            $this->createMock(FragmentFailureReporterInterface::class),
+        );
+
+        $this->expectExceptionObject($exception);
+        $handler->render('/', 'inline', ['ignore_errors' => true]);
+    }
 }

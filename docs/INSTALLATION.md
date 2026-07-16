@@ -3,7 +3,7 @@
 ## Requirements
 
 - PHP `>= 8.2`, `< 8.6`
-- Symfony `^7.0 || ^8.0`
+- Symfony `^7.4 || ^8.0`
 - `symfony/twig-bundle`
 - Framework fragments enabled (`framework.fragments`)
 

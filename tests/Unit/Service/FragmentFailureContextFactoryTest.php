@@ -43,4 +43,42 @@ final class FragmentFailureContextFactoryTest extends TestCase
         $this->assertSame('/parent', $context->parentUri);
         $this->assertSame('App\\Controller\\Child::index', $context->controller);
     }
+
+    public function testDefaultsTo500WhenStatusCannotBeResolved(): void
+    {
+        $stack     = new RequestStack();
+        $exception = new RuntimeException('Something else went wrong');
+
+        $context = (new FragmentFailureContextFactory($stack))->fromException($exception);
+
+        $this->assertSame(500, $context->statusCode);
+        $this->assertNull($context->fragmentUri);
+    }
+
+    public function testUsesCurrentRequestUriWhenMessageHasNoFragmentUri(): void
+    {
+        $request = Request::create('/current-fragment');
+        $stack   = new RequestStack();
+        $stack->push($request);
+
+        $exception = new RuntimeException('Error when rendering without status pattern');
+
+        $context = (new FragmentFailureContextFactory($stack))->fromException($exception);
+
+        $this->assertSame(500, $context->statusCode);
+        $this->assertSame('/current-fragment', $context->fragmentUri);
+    }
+
+    public function testParsesStatusCodeFromMessageWithoutHttpException(): void
+    {
+        $stack     = new RequestStack();
+        $exception = new RuntimeException(
+            'Error when rendering "https://example.test/x" (Status code is 404).',
+        );
+
+        $context = (new FragmentFailureContextFactory($stack))->fromException($exception);
+
+        $this->assertSame(404, $context->statusCode);
+        $this->assertSame('https://example.test/x', $context->fragmentUri);
+    }
 }
