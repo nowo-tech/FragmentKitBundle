@@ -1,0 +1,29 @@
+name: fragment-kit-bundle
+
+services:
+  php:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: fragment-kit-bundle-php
+    working_dir: /app
+    volumes:
+      - .:/app
+      - composer-cache:/root/.composer/cache
+      - coverage-data:/app/coverage
+    environment:
+      - COMPOSER_ALLOW_SUPERUSER=1
+      - XDEBUG_MODE=coverage
+    command: ["tail", "-f", "/dev/null"]
+    networks:
+      - fragment-kit-bundle-network
+
+volumes:
+  composer-cache:
+    driver: local
+  coverage-data:
+    driver: local
+
+networks:
+  fragment-kit-bundle-network:
+    driver: bridge

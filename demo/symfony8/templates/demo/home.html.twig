@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Fragment Kit Demo{% endblock %}
+
+{% block body %}
+    <h1>Fragment Kit Demo</h1>
+    <p>
+        This page embeds Twig fragments with <code>{ignore_errors: true}</code>.
+        Without this bundle, HTTP error statuses from sub-requests (403/404) still
+        crash the parent with a 500. With FragmentKit, the parent stays healthy and
+        the fallback template is rendered.
+    </p>
+
+    <h2>Healthy fragment</h2>
+    <div class="panel">
+        {{ render(controller('App\\Controller\\DemoController::okFragment'), {ignore_errors: true}) }}
+    </div>
+
+    <h2>Forbidden fragment (HTTP 403)</h2>
+    <div class="panel">
+        {{ render(controller('App\\Controller\\DemoController::forbiddenFragment'), {ignore_errors: true}) }}
+    </div>
+
+    <h2>Missing fragment (HTTP 404)</h2>
+    <div class="panel">
+        {{ render(controller('App\\Controller\\DemoController::missingFragment'), {ignore_errors: true}) }}
+    </div>
+{% endblock %}

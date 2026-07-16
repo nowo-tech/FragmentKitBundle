@@ -1,0 +1,8 @@
+# config/packages/nowo_fragment_kit.yaml
+nowo_fragment_kit:
+    enabled: true
+    fallback:
+        template: 'fragment/unavailable.html.twig'
+    sentry:
+        enabled: false
+        level: warning

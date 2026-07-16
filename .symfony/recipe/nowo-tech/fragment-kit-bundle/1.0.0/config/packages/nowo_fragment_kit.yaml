@@ -1,0 +1,8 @@
+nowo_fragment_kit:
+  enabled: true
+  fallback:
+    # Twig template when a sub-request fails with {ignore_errors: true}. Set null for empty output.
+    template: '@NowoFragmentKit/fragment_failure.html.twig'
+  sentry:
+    enabled: true
+    level: warning

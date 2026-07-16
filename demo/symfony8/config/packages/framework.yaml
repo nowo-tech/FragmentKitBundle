@@ -1,0 +1,14 @@
+framework:
+    secret: '%env(APP_SECRET)%'
+    http_method_override: false
+    handle_all_throwables: true
+    php_errors:
+        log: true
+    fragments:
+        path: /_fragment
+    router:
+        default_uri: '%env(DEFAULT_URI)%'
+
+when@test:
+    framework:
+        test: true
