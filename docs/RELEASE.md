@@ -1,48 +1,31 @@
 # Release process
 
-## Pre-release checklist
+1. Update [CHANGELOG.md](CHANGELOG.md): move entries from `[Unreleased]` to a new `[X.Y.Z] - YYYY-MM-DD` section. (This project does not store version in `composer.json`; Packagist uses the git tag.)
+2. Update [UPGRADING.md](UPGRADING.md) if the release has upgrade notes.
+3. Update README version table status if needed.
+4. Run pre-release checks: `make release-check` (includes `check-no-cursor-coauthor`, `composer-sync`, cs-fix, cs-check, rector-dry, phpstan, test-coverage, and optionally demo healthchecks).
+5. Commit all changes, create an annotated tag (e.g. `v1.0.0`), and push branch and tag. The [release workflow](../.github/workflows/release.yml) creates the GitHub Release from the tag message and changelog section.
+6. Publish / verify Packagist (usually automatic via webhook when the tag is pushed).
+
+After creating the release commit and tag, run `make check-no-cursor-coauthor` again **before** `git push` (REQ-GIT-001). The release commit itself is not covered by an earlier `release-check` run.
+
+## Example for v1.0.0
 
 ```bash
+git add -A
+git status   # review
 make release-check
-```
+git commit -m "$(cat <<'EOF'
+Release 1.0.0: initial stable FragmentKitBundle.
 
-`release-check` runs (in order):
-
-1. `check-no-cursor-coauthor`
-2. `composer-sync`
-3. `cs-fix`, `cs-check`
-4. `rector-dry`
-5. `phpstan`
-6. `test-coverage`
-7. Demo healthcheck (if `demo/Makefile` defines `release-check`)
-
-## Version bump
-
-1. Update `docs/CHANGELOG.md` with a dated `## [X.Y.Z]` section.
-2. Update `docs/UPGRADING.md` if integrators must act.
-3. Commit on `main`.
-
-## Tag and GitHub release
-
-```bash
+EOF
+)"
 git tag -a v1.0.0 -m "Release v1.0.0"
+make check-no-cursor-coauthor
+git push origin main
 git push origin v1.0.0
 ```
 
-GitHub Actions `release.yml` creates a release from the tag message and changelog section.
-
-## Packagist
-
-After the GitHub release, verify Packagist auto-update (webhook) or trigger manual update.
-
 ## Sync missing releases
 
-## After tagging / before push
-
-After creating the release commit (and tag), run again:
-
-```bash
-make check-no-cursor-coauthor
-```
-
-`release-check` alone is insufficient when the release commit is created **after** `release-check` finishes. See [GITHUB_CI.md](GITHUB_CI.md) and [GITLAB_CI.md](GITLAB_CI.md).
+See [GITHUB_CI.md](GITHUB_CI.md) and the `sync-releases.yml` workflow if a tag exists without a GitHub Release.

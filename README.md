@@ -68,7 +68,7 @@ Nowo\FragmentKitBundle\NowoFragmentKitBundle::class => ['all' => true],
 
 | Version | PHP | Symfony | Status |
 |---------|-----|---------|--------|
-| 1.0.x | >= 8.2 | 7.4 – 8.1+ | In development |
+| 1.0.x | >= 8.2 | 7.4 – 8.1+ | Stable |
 
 ## Demos
 
