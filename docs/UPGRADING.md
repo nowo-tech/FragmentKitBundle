@@ -1,5 +1,33 @@
 # Upgrading
 
+## To 1.0.1
+
+```bash
+composer update nowo-tech/fragment-kit-bundle
+```
+
+Or require explicitly:
+
+```bash
+composer require nowo-tech/fragment-kit-bundle:^1.0.1
+```
+
+### Breaking changes
+
+None.
+
+### Integrator notes
+
+- **No application migration required.** Public API and `nowo_fragment_kit` configuration are unchanged since 1.0.0.
+- This release hardens contributor/CI git hygiene (REQ-GIT-001) and documentation only.
+
+### Contributors
+
+- Re-run `make setup-hooks` on existing clones if needed.
+- Prefer `make check-no-cursor-coauthor` / `make strip-cursor-coauthor-from-history` as documented in [GITHUB_CI.md](GITHUB_CI.md).
+
+---
+
 ## To 1.0.0 (initial release)
 
 This is the first stable release. Install or require the package:

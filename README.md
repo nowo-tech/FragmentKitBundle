@@ -45,7 +45,6 @@ Nowo\FragmentKitBundle\NowoFragmentKitBundle::class => ['all' => true],
 ## Documentation
 
 - [GitHub Actions CI requirements](docs/GITHUB_CI.md)
-- [GitLab CI (REQ-GIT-001 mirror)](docs/GITLAB_CI.md)
 - [Installation](docs/INSTALLATION.md)
 - [Configuration](docs/CONFIGURATION.md)
 - [Usage](docs/USAGE.md)
