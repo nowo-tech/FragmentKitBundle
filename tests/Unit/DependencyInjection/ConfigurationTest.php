@@ -17,7 +17,7 @@ final class ConfigurationTest extends TestCase
         $config = (new Processor())->processConfiguration(new Configuration(), [[]]);
 
         $this->assertTrue($config['enabled']);
-        $this->assertSame('@NowoFragmentKit/fragment_failure.html.twig', $config['fallback']['template']);
+        $this->assertSame('@NowoFragmentKitBundle/fragment_failure.html.twig', $config['fallback']['template']);
         $this->assertTrue($config['sentry']['enabled']);
         $this->assertSame('warning', $config['sentry']['level']);
     }

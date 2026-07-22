@@ -77,6 +77,7 @@ As an integrator, I set `enabled: false` to remove the decorator and restore sto
 | FR-FK-005 | `FragmentFailureRenderer` renders Twig fallback or empty string |
 | FR-FK-006 | `FragmentFailureReporterInterface` with Null and Sentry implementations |
 | FR-FK-007 | Flex recipe ships default `nowo_fragment_kit.yaml` |
+| FR-FK-008 | Twig namespace `NowoFragmentKitBundle` registered with app override precedence |
 
 ---
 

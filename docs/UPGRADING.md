@@ -1,5 +1,42 @@
 # Upgrading
 
+## To 1.1.0
+
+```bash
+composer update nowo-tech/fragment-kit-bundle
+```
+
+Or require explicitly:
+
+```bash
+composer require nowo-tech/fragment-kit-bundle:^1.1
+```
+
+### Breaking / migration
+
+- **Twig namespace** — Update fallback template references from `@NowoFragmentKit/...` to `@NowoFragmentKitBundle/...`.
+- **Application overrides** — Move bundle template overrides to `templates/bundles/NowoFragmentKitBundle/...`.
+
+If you still use the default template path from the Flex recipe / docs:
+
+```yaml
+nowo_fragment_kit:
+  fallback:
+    template: '@NowoFragmentKitBundle/fragment_failure.html.twig'
+```
+
+Custom app templates (e.g. `fragment/unavailable.html.twig`) need no change unless they referenced `@NowoFragmentKit/...`.
+
+### What is new
+
+- `TwigPathsPass` registers the `NowoFragmentKitBundle` Twig namespace and gives app overrides precedence via `prependPath`.
+
+### After upgrading
+
+Clear the Symfony cache and smoke-test pages that embed fragments with `ignore_errors: true`.
+
+---
+
 ## To 1.0.1
 
 ```bash
@@ -62,6 +99,8 @@ nowo_fragment_kit:
     enabled: true
     level: warning
 ```
+
+> **Note:** From **1.1.0** the default Twig namespace is `@NowoFragmentKitBundle/...`. See [To 1.1.0](#to-110).
 
 ### Integrator notes
 

@@ -37,7 +37,7 @@ Without this bundle, HTTP error statuses from fragments still surface as a paren
 </div>
 ```
 
-The default bundle template (`@NowoFragmentKit/fragment_failure.html.twig`) renders an empty string so production pages stay quiet until you override it.
+The default bundle template (`@NowoFragmentKitBundle/fragment_failure.html.twig`) renders an empty string so production pages stay quiet until you override it.
 
 ## Sentry
 

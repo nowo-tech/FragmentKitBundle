@@ -7,6 +7,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [1.1.0] - 2026-07-22
+
+### Added
+
+- **`TwigPathsPass`** — registers Twig namespace `NowoFragmentKitBundle` and prepends app overrides from `templates/bundles/NowoFragmentKitBundle/` (FR-FK-008).
+
+### Changed
+
+- **Twig fallback namespace** — default template is now `@NowoFragmentKitBundle/fragment_failure.html.twig` (was `@NowoFragmentKit/...`). Flex recipe and docs updated accordingly.
+
+### Migration
+
+See [UPGRADING.md](UPGRADING.md) — update explicit `@NowoFragmentKit/...` config references and move template overrides under `templates/bundles/NowoFragmentKitBundle/`.
+
 ## [1.0.1] - 2026-07-20
 
 ### Changed

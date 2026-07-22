@@ -30,7 +30,7 @@ class Configuration implements ConfigurationInterface
                     ->children()
                         ->scalarNode('template')
                             ->info('Twig template rendered when a fragment fails and ignore_errors is true. Null or empty = return an empty string.')
-                            ->defaultValue('@NowoFragmentKit/fragment_failure.html.twig')
+                            ->defaultValue('@NowoFragmentKitBundle/fragment_failure.html.twig')
                         ->end()
                     ->end()
                 ->end()

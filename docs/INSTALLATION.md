@@ -31,7 +31,7 @@ The recipe copies:
 nowo_fragment_kit:
   enabled: true
   fallback:
-    template: '@NowoFragmentKit/fragment_failure.html.twig'
+    template: '@NowoFragmentKitBundle/fragment_failure.html.twig'
   sentry:
     enabled: true
     level: warning

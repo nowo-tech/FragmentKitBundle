@@ -6,7 +6,7 @@ Root node: `nowo_fragment_kit`.
 nowo_fragment_kit:
   enabled: true
   fallback:
-    template: '@NowoFragmentKit/fragment_failure.html.twig'  # or null for empty string
+    template: '@NowoFragmentKitBundle/fragment_failure.html.twig'  # or null for empty string
   sentry:
     enabled: true
     level: warning   # debug|info|warning|error|fatal
@@ -17,7 +17,7 @@ nowo_fragment_kit:
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
 | `enabled` | bool | `true` | When `false`, the `fragment.handler` decorator is not registered |
-| `fallback.template` | string\|null | `@NowoFragmentKit/fragment_failure.html.twig` | Twig template rendered on suppressed failure; `null` → empty string |
+| `fallback.template` | string\|null | `@NowoFragmentKitBundle/fragment_failure.html.twig` | Twig template rendered on suppressed failure; `null` → empty string |
 | `sentry.enabled` | bool | `true` | Report suppressed failures when `sentry/sentry-symfony` is installed |
 | `sentry.level` | string | `warning` | Sentry event level |
 

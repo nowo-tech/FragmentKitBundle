@@ -34,7 +34,7 @@ final class FragmentKitExtensionTest extends TestCase
 
         self::assertTrue($container->getParameter('nowo_fragment_kit.enabled'));
         self::assertSame(
-            '@NowoFragmentKit/fragment_failure.html.twig',
+            '@NowoFragmentKitBundle/fragment_failure.html.twig',
             $container->getParameter('nowo_fragment_kit.fallback.template'),
         );
         self::assertTrue($container->hasDefinition(ResilientFragmentHandler::class));

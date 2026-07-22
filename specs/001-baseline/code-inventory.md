@@ -2,13 +2,13 @@
 
 **Spec**: [`spec.md`](spec.md)  
 **Last audited**: 2026-07-16  
-**Production units**: 13
+**Production units**: 14
 
 ## Coverage summary
 
 | Category | Files | Mapped FR-* |
 |----------|------:|-------------|
-| Bundle / DI | 3 | FR-FK-001, FR-FK-007 |
+| Bundle / DI | 4 | FR-FK-001, FR-FK-007, FR-FK-008 |
 | HTTP kernel | 1 | FR-FK-002, FR-FK-003 |
 | Model | 1 | FR-FK-004 |
 | Services | 2 | FR-FK-004, FR-FK-005 |
@@ -21,9 +21,10 @@
 
 | Path | Requirement IDs |
 |------|-----------------|
-| `src/NowoFragmentKitBundle.php` | FR-FK-001, FR-FK-007 |
+| `src/NowoFragmentKitBundle.php` | FR-FK-001, FR-FK-007, FR-FK-008 |
 | `src/DependencyInjection/Configuration.php` | FR-FK-001 |
 | `src/DependencyInjection/FragmentKitExtension.php` | FR-FK-001, FR-FK-006, FR-FK-007 |
+| `src/DependencyInjection/Compiler/TwigPathsPass.php` | FR-FK-008 |
 
 ## HTTP kernel
 
