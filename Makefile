@@ -6,7 +6,7 @@ COMPOSE_FILE := docker-compose.yml
 COMPOSE := docker-compose -f $(COMPOSE_FILE)
 SERVICE_PHP := php
 
-.PHONY: help ensure-up up down down-dev build shell install test test-coverage coverage-php-percent cs-check cs-fix rector rector-dry phpstan qa release-check release-check-demos demo-smoke composer-sync clean update validate validate-translations assets setup-hooks check-no-cursor-coauthor strip-cursor-coauthor-from-history update-deps
+.PHONY: help ensure-up up down down-dev build shell install test test-coverage coverage-php-percent coverage-check test-coverage-100 cs-check cs-fix rector rector-dry phpstan qa release-check release-check-demos demo-smoke composer-sync clean update validate validate-translations assets setup-hooks check-no-cursor-coauthor check-open-prs strip-cursor-coauthor-from-history update-deps
 
 # Default target
 help:
@@ -31,8 +31,10 @@ help:
 	@echo "  rector-dry    Run Rector in dry-run mode"
 	@echo "  phpstan       Run PHPStan static analysis"
 	@echo "  qa            Run all QA checks (cs-check + test)"
-	@echo "  release-check Pre-release: co-author audit, cs-fix, cs-check, rector-dry, phpstan, test-coverage, demo healthchecks"
+	@echo "  release-check Pre-release: co-author audit, open PRs, cs-fix, cs-check, rector-dry, phpstan, test-coverage, demo healthchecks"
+	@echo "  check-open-prs Fail if unresolved open GitHub PRs remain (REQ-REL-003)"
 	@echo "  demo-smoke    REQ-TEST-011: boot demo + HTTP 200 (make -C demo demo-smoke)"
+	@echo "  coverage-check Fail if PHP line coverage is below 100% (REQ-TEST-006)"
 	@echo "  composer-sync Validate composer.json and align composer.lock (no install)"
 	@echo "  clean         Remove vendor and cache"
 	@echo "  update-deps   Update composer dependencies (REQ-MAKE-008)"
@@ -86,6 +88,12 @@ test-coverage: ensure-up
 coverage-php-percent:
 	./.scripts/php-coverage-percent.sh coverage-php.txt
 
+coverage-check: test-coverage
+	@VALUE=$$(sed 's/\x1B\[[0-9;]*[A-Za-z]//g' coverage-php.txt | awk '/^[[:space:]]*Lines:[[:space:]]+/ { gsub(/%/, "", $$2); print $$2; exit }'); \
+	awk -v p="$${VALUE:-0}" 'BEGIN { if ((p+0) < 100) { printf "ERROR: PHP line coverage %s%% < 100%%\n", p; exit 1 } printf "OK: PHP line coverage %s%%\n", p }'
+
+test-coverage-100: coverage-check
+
 cs-check: ensure-up
 	$(COMPOSE) exec -T $(SERVICE_PHP) composer cs-check
 
@@ -104,11 +112,15 @@ phpstan: ensure-up
 qa: ensure-up
 	$(COMPOSE) exec -T $(SERVICE_PHP) composer qa
 
-release-check: ensure-up check-no-cursor-coauthor composer-sync cs-fix cs-check rector-dry phpstan test-coverage release-check-demos
+release-check: ensure-up check-no-cursor-coauthor check-open-prs composer-sync cs-fix cs-check rector-dry phpstan test-coverage coverage-check release-check-demos
 
 check-no-cursor-coauthor:
 	@chmod +x .scripts/check-no-cursor-coauthor.sh
 	@./.scripts/check-no-cursor-coauthor.sh HEAD
+
+check-open-prs:
+	@chmod +x .scripts/check-open-prs.sh
+	@bash .scripts/check-open-prs.sh
 
 release-check-demos:
 	@if [ -f demo/Makefile ]; then $(MAKE) -C demo release-check; else echo "No demo/Makefile — skip release-check-demos"; fi
@@ -140,14 +152,10 @@ assets:
 	@echo "No frontend assets in this bundle."
 
 setup-hooks:
-	@mkdir -p .git/hooks
-	@if [ -f .githooks/commit-msg ]; then \
-		cp -f .githooks/commit-msg .git/hooks/commit-msg; \
-		chmod +x .git/hooks/commit-msg; \
-		echo "✅ commit-msg hook installed at .git/hooks/commit-msg."; \
-	else \
-		echo "⚠️  .githooks/commit-msg not found. Skipping commit-msg hook."; \
-	fi
+	@chmod +x .githooks/pre-commit 2>/dev/null || true
+	@chmod +x .githooks/commit-msg 2>/dev/null || true
+	@git config core.hooksPath .githooks
+	@echo "Git hooks installed (.githooks — includes commit-msg for REQ-GIT-001)."
 
 strip-cursor-coauthor-from-history:
 	@chmod +x .scripts/strip-cursor-coauthor-from-history.sh

@@ -17,8 +17,9 @@ help:
 
 up: ensure-env
 	@$(COMPOSE) up -d
-	@echo "Waiting for container..."
+	@echo "Waiting for container to be ready..."
 	@sleep 5
+	@echo "Installing dependencies..."
 	@$(COMPOSE) exec -T -e COMPOSER_MEMORY_LIMIT=-1 $(SERVICE_PHP) composer install --no-interaction
 	@PORT=$$(grep "^PORT=" .env 2>/dev/null | cut -d= -f2 | tr -d '\r'); \
 	[ -z "$$PORT" ] && PORT=$$(grep "^PORT=" .env.example 2>/dev/null | cut -d= -f2 | tr -d '\r'); \
@@ -49,7 +50,7 @@ shell: ensure-up
 
 update-bundle: ensure-up
 	@$(COMPOSE) exec -T $(SERVICE_PHP) composer dump-autoload --optimize
-	@$(COMPOSE) exec -T $(SERVICE_PHP) php bin/console cache:clear --env=dev --no-warmup || true
+	@$(COMPOSE) exec -T $(SERVICE_PHP) php bin/console cache:clear --env=dev --no-warmup
 
 BUNDLE_ROOT := $(abspath $(dir $(lastword $(MAKEFILE_LIST)))/../..)
 include $(BUNDLE_ROOT)/../.scripts/Makefile.demo-update-deps.mk

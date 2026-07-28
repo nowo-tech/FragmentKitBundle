@@ -39,6 +39,15 @@ Without this bundle, HTTP error statuses from fragments still surface as a paren
 
 The default bundle template (`@NowoFragmentKitBundle/fragment_failure.html.twig`) renders an empty string so production pages stay quiet until you override it.
 
+## Overriding the default Twig template (REQ-TWIG-001)
+
+The bundle registers Twig namespace **`NowoFragmentKitBundle`** via `TwigPathsPass`. Application overrides take precedence:
+
+1. Create `templates/bundles/NowoFragmentKitBundle/fragment_failure.html.twig` in your app (same relative path as under `src/Resources/views/`).
+2. Keep using `@NowoFragmentKitBundle/fragment_failure.html.twig` as `nowo_fragment_kit.fallback.template`, **or** point `fallback.template` at your own app template (e.g. `fragment/unavailable.html.twig`).
+
+Symfony will load the app file under `templates/bundles/NowoFragmentKitBundle/` before the bundle’s shipped view.
+
 ## Sentry
 
 Requires `sentry/sentry-symfony`. Events are tagged with:

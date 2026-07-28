@@ -36,6 +36,14 @@ nowo_fragment_kit:
     template: 'fragment/unavailable.html.twig'
 ```
 
+To override the **default** bundle view while keeping the logical name `@NowoFragmentKitBundle/fragment_failure.html.twig`, place a file at:
+
+```text
+templates/bundles/NowoFragmentKitBundle/fragment_failure.html.twig
+```
+
+See [USAGE.md](USAGE.md#overriding-the-default-twig-template-req-twig-001).
+
 ## Disable Sentry only
 
 ```yaml

@@ -7,6 +7,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [1.1.2] - 2026-07-28
+
+### Added
+
+- Flex recipe `manifest.json` (bundle registration + config copy) (REQ-RECIPE-001).
+- `make check-open-prs` / `.scripts/check-open-prs.sh` (REQ-REL-003).
+- `make coverage-check` / `test-coverage-100` (REQ-TEST-006); CI coverage gate **100%** + PHPStan job.
+- Cursor rule `.cursor/rules/20-twig-and-public-assets.mdc` (REQ-IDE-003).
+
+### Changed
+
+- Demo FrankenPHP: PHP **8.5** image, real `worker` in Caddyfile, entrypoint paths aligned (REQ-DEMO-010).
+- README: canonical Documentation order, GitHub stars badge, `FRANKENPHP_MODE` docs (REQ-DOCS-002/004).
+- USAGE/CONFIGURATION: Twig override via `templates/bundles/NowoFragmentKitBundle/` (REQ-TWIG-001).
+- Expanded `SPEC-DRIVEN-DEVELOPMENT.md`; `.github/SECURITY.md` supports **1.1.x**.
+- Demo `up` messages + DNS comment (REQ-DEMO-005/009); `setup-hooks` uses `core.hooksPath` (REQ-MAKE-006).
+- Dev deps bump: phpstan 2.2.6, rector 2.5.8, php-cs-fixer 3.95.17.
+
 ## [1.1.1] - 2026-07-28
 
 ### Added

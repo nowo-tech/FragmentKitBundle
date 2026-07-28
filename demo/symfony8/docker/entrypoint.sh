@@ -1,21 +1,20 @@
 #!/bin/sh
 set -e
 
-
 # FRANKENPHP_MODE: classic | worker (REQ-DEMO-010). Default: worker.
 # Set via .env / Compose only — not baked into the image ENV.
 MODE="${FRANKENPHP_MODE:-worker}"
 case "$MODE" in
 	classic)
-		if [ -f /app/Caddyfile.dev ]; then
-			cp /app/Caddyfile.dev /etc/caddy/Caddyfile
+		if [ -f /app/docker/frankenphp/Caddyfile.dev ]; then
+			cp /app/docker/frankenphp/Caddyfile.dev /etc/frankenphp/Caddyfile
 		elif [ -f /etc/frankenphp/Caddyfile.dev ]; then
 			cp /etc/frankenphp/Caddyfile.dev /etc/frankenphp/Caddyfile
 		fi
 		;;
 	worker)
-		if [ -f /app/Caddyfile ]; then
-			cp /app/Caddyfile /etc/caddy/Caddyfile
+		if [ -f /app/docker/frankenphp/Caddyfile ]; then
+			cp /app/docker/frankenphp/Caddyfile /etc/frankenphp/Caddyfile
 		fi
 		# else keep image default Caddyfile (worker enabled)
 		;;

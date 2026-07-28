@@ -1,6 +1,6 @@
 # FragmentKitBundle
 
-[![CI](https://github.com/nowo-tech/FragmentKitBundle/actions/workflows/ci.yml/badge.svg)](https://github.com/nowo-tech/FragmentKitBundle/actions/workflows/ci.yml) [![Packagist Version](https://img.shields.io/packagist/v/nowo-tech/fragment-kit-bundle.svg?style=flat)](https://packagist.org/packages/nowo-tech/fragment-kit-bundle) [![Packagist Downloads](https://img.shields.io/packagist/dt/nowo-tech/fragment-kit-bundle.svg)](https://packagist.org/packages/nowo-tech/fragment-kit-bundle) [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE) [![PHP](https://img.shields.io/badge/PHP-8.2%2B-777BB4?logo=php)](https://php.net) [![Symfony](https://img.shields.io/badge/Symfony-7.4%20%7C%208.0%20%7C%208.1%2B-000000?logo=symfony)](https://symfony.com) [![Coverage](https://img.shields.io/badge/Coverage-100%25-brightgreen)](#tests-and-coverage)
+[![CI](https://github.com/nowo-tech/FragmentKitBundle/actions/workflows/ci.yml/badge.svg)](https://github.com/nowo-tech/FragmentKitBundle/actions/workflows/ci.yml) [![Packagist Version](https://img.shields.io/packagist/v/nowo-tech/fragment-kit-bundle.svg?style=flat)](https://packagist.org/packages/nowo-tech/fragment-kit-bundle) [![Packagist Downloads](https://img.shields.io/packagist/dt/nowo-tech/fragment-kit-bundle.svg)](https://packagist.org/packages/nowo-tech/fragment-kit-bundle) [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE) [![PHP](https://img.shields.io/badge/PHP-8.2%2B-777BB4?logo=php)](https://php.net) [![Symfony](https://img.shields.io/badge/Symfony-7.4%20%7C%208.0%20%7C%208.1%2B-000000?logo=symfony)](https://symfony.com) [![GitHub stars](https://img.shields.io/github/stars/nowo-tech/FragmentKitBundle.svg?style=social&label=Star)](https://github.com/nowo-tech/FragmentKitBundle) [![Coverage](https://img.shields.io/badge/Coverage-100%25-brightgreen)](#tests-and-coverage)
 
 > ⭐ **Found this useful?** Give it a star on GitHub! It helps us maintain and improve the project.
 
@@ -18,7 +18,7 @@ Symfony bundle that makes Twig fragment sub-requests resilient when using `{igno
 - ✅ **Flex recipe** — ships `nowo_fragment_kit` config
 - ✅ **FrankenPHP demo** — Symfony 8 single-container demo
 
-**FrankenPHP:** Demos use a **single PHP service** (FrankenPHP, no nginx). With **`APP_ENV=dev`** (default), the Docker **entrypoint swaps in `Caddyfile.dev`** — **`php_server` without workers** for local development. The production `Caddyfile` can use **`php_server { worker … }`**; see [docs/DEMO-FRANKENPHP.md](docs/DEMO-FRANKENPHP.md).
+**FrankenPHP:** Demos use a **single PHP service** (FrankenPHP, no nginx). Runtime mode is controlled by **`FRANKENPHP_MODE`** in `.env` (**default `worker`**). Set `classic` for per-request PHP / easier hot-reload (entrypoint swaps in `Caddyfile.dev`). Recreate the container after changing the mode — no image rebuild. See [docs/DEMO-FRANKENPHP.md](docs/DEMO-FRANKENPHP.md).
 
 ## Problem
 
@@ -48,7 +48,6 @@ Nowo\FragmentKitBundle\NowoFragmentKitBundle::class => ['all' => true],
 
 ## Documentation
 
-- [GitHub Actions CI requirements](docs/GITHUB_CI.md)
 - [Installation](docs/INSTALLATION.md)
 - [Configuration](docs/CONFIGURATION.md)
 - [Usage](docs/USAGE.md)
@@ -64,6 +63,7 @@ Nowo\FragmentKitBundle\NowoFragmentKitBundle::class => ['all' => true],
 
 ### Additional documentation
 
+- [GitHub Actions CI requirements](docs/GITHUB_CI.md)
 - [Demo with FrankenPHP](docs/DEMO-FRANKENPHP.md) (includes worker mode)
 - [Server cookbook (Nginx, php-fpm, FrankenPHP)](docs/SERVERS.md)
 
@@ -71,7 +71,8 @@ Nowo\FragmentKitBundle\NowoFragmentKitBundle::class => ['all' => true],
 
 | Version | PHP | Symfony | Status |
 |---------|-----|---------|--------|
-| 1.0.x | >= 8.2 | 7.4 – 8.1+ | Stable |
+| 1.1.x | >= 8.2 | 7.4 – 8.1+ | Stable |
+| 1.0.x | >= 8.2 | 7.4 – 8.1+ | Security / maintenance |
 
 ## Demos
 

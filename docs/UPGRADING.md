@@ -1,5 +1,34 @@
 # Upgrading
 
+## To 1.1.2
+
+```bash
+composer update nowo-tech/fragment-kit-bundle
+```
+
+Or require explicitly:
+
+```bash
+composer require nowo-tech/fragment-kit-bundle:^1.1.2
+```
+
+### Breaking changes
+
+None.
+
+### Integrator notes
+
+- **No application migration required.** Public API, Twig namespace (`@NowoFragmentKitBundle/...`), and `sentry.level` enum rules are unchanged since 1.1.1.
+- Optional: override the default fallback via `templates/bundles/NowoFragmentKitBundle/fragment_failure.html.twig` (documented in USAGE).
+
+### Contributors / demos
+
+- Symfony 8 demo image is now FrankenPHP **PHP 8.5**; recreate with `make -C demo/symfony8 build && make -C demo/symfony8 up`.
+- Prefer `FRANKENPHP_MODE=classic|worker` (default `worker`); recreate containers after changing `.env` (no image rebuild).
+- `make release-check` now runs `check-open-prs` and `coverage-check`.
+
+---
+
 ## To 1.1.1
 
 ```bash
