@@ -3,13 +3,14 @@
 COMPOSE = /usr/bin/docker compose
 SERVICE_PHP = php
 
-.PHONY: help up down build install shell update-bundle ensure-up ensure-env
+.PHONY: help up down down-dev build install shell update-bundle ensure-up ensure-env
 
 help:
 	@echo "Symfony 8 Demo - Fragment Kit Bundle"
 	@echo ""
 	@echo "  make up             Start containers"
 	@echo "  make down           Stop containers"
+	@echo "  make down-dev       Stop containers (keep volumes; REQ-MAKE-007)"
 	@echo "  make install        Install dependencies"
 	@echo "  make shell          Open shell in PHP container"
 	@echo "  make update-bundle  Sync bundle autoload and clear cache"
@@ -25,6 +26,9 @@ up: ensure-env
 
 down:
 	@$(COMPOSE) down
+
+down-dev:
+	@$(COMPOSE) down --remove-orphans
 
 build:
 	@$(COMPOSE) build --no-cache

@@ -27,7 +27,7 @@ The parent response stays HTTP 200.
 | `APP_ENV=dev` (default) | `Caddyfile.dev` | `php_server` — no workers, file changes visible immediately |
 | `APP_ENV=prod` | `Caddyfile` | Can use `php_server { worker … }` for FrankenPHP workers |
 
-The Docker entrypoint copies `Caddyfile.dev` when `APP_ENV=dev`.
+The Docker entrypoint selects the Caddyfile from `FRANKENPHP_MODE` (`classic`|`worker`).
 
 ## Bundle path repository
 

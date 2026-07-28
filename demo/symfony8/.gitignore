@@ -1,27 +1,45 @@
-vendor/
-var/
-.env
-.env.local
-.env.*.local
-.env.dev
-composer.lock
-symfony.lock
-.phpunit.cache/
+# ------------------------------------------------------------------------------
+# Local environment (do not version secrets)
+# ------------------------------------------------------------------------------
+# Copy from .env.example via `make up` / `make install`. Do not commit .env,
+# .env.dev, or machine-specific locals (REQ-DEMO-003 / REQ-ENV-001).
+/.env
+/.env.dev
+/.env.local
+/.env.local.php
+/.env.*.local
 
-# Archives / compressed
+# ------------------------------------------------------------------------------
+# Dependencies & build artifacts
+# ------------------------------------------------------------------------------
+/vendor/
+/node_modules/
+/.pnpm-store/
+/public/build/
+/public/bundles/
+/composer.lock
+/symfony.lock
+
+# ------------------------------------------------------------------------------
+# Caches, logs, and runtime
+# ------------------------------------------------------------------------------
+/var/
+*.log
+/.phpunit.cache/
+/phpunit.xml
+/.php-cs-fixer.cache
+
+# ------------------------------------------------------------------------------
+# Symfony secrets
+# ------------------------------------------------------------------------------
+/config/secrets/prod/prod.decrypt.private.php
+
+# ------------------------------------------------------------------------------
+# Archives / compressed (REQ-GITIGNORE-001)
+# ------------------------------------------------------------------------------
 *.zip
 *.tar
 *.tar.gz
 *.tgz
 *.rar
 *.7z
-
-###> symfony/framework-bundle ###
-/.env.local
-/.env.local.php
-/.env.*.local
-/config/secrets/prod/prod.decrypt.private.php
-/public/bundles/
-/var/
-/vendor/
-###< symfony/framework-bundle ###

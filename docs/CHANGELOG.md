@@ -7,6 +7,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [1.1.1] - 2026-07-28
+
+### Added
+
+- **REQ compliance** — demo Twig Inspector (`REQ-DEMO-001`), FrankenPHP Friendly banner (`REQ-DOCS-017`), Spec Kit skills + `.specify` scaffold (`REQ-SPECKIT-001`), Dependabot / PR-lint / stale workflows (`REQ-GH-002/004/005`), `make down-dev` / `demo-smoke` (`REQ-MAKE-007`, `REQ-TEST-011`), and `nowo-tech/phpstan-frankenphp` (`REQ-CS-005`).
+- **SECURITY 12.4.1** — release security checklist in `docs/SECURITY.md` (`REQ-SEC-002`).
+- Demo `FRANKENPHP_MODE` + `docker/entrypoint.sh` (`REQ-DEMO-010`).
+
+### Changed
+
+- **`sentry.level`** — validated as enum (`debug|info|warning|error|fatal`); invalid values are rejected (`REQ-SF-006`).
+- PHPUnit: `SYMFONY_DEPRECATIONS_HELPER=max[direct]=0` (`REQ-SF-005`).
+- Demo `.env.example` / `.gitignore` aligned with REQ-DEMO-003 / REQ-ENV-001; TOC in long docs (`REQ-DOCS-005`).
+- Root `release-check-demos` no longer swallows demo failures.
+
 ## [1.1.0] - 2026-07-22
 
 ### Added

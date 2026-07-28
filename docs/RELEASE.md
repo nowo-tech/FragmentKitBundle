@@ -5,25 +5,26 @@
 3. Update README version table status if needed.
 4. Run pre-release checks: `make release-check` (includes `check-no-cursor-coauthor`, `composer-sync`, cs-fix, cs-check, rector-dry, phpstan, test-coverage, and optionally demo healthchecks).
 5. Commit all changes, create an annotated tag (e.g. `v1.0.0`), and push branch and tag. The [release workflow](../.github/workflows/release.yml) creates the GitHub Release from the tag message and changelog section.
-6. Publish / verify Packagist (usually automatic via webhook when the tag is pushed).
+6. Confirm the [Release security checklist (12.4.1)](SECURITY.md#release-security-checklist-1241) in `docs/SECURITY.md`.
+7. Publish / verify Packagist (usually automatic via webhook when the tag is pushed).
 
 After creating the release commit and tag, run `make check-no-cursor-coauthor` again **before** `git push` (REQ-GIT-001). The release commit itself is not covered by an earlier `release-check` run.
 
-## Example for v1.1.0
+## Example for v1.1.1
 
 ```bash
 git add -A
 git status   # review
 make release-check
 git commit -m "$(cat <<'EOF'
-Release 1.1.0: TwigPathsPass and NowoFragmentKitBundle namespace.
+Release 1.1.1: full REQ compliance and sentry.level enum.
 
 EOF
 )"
-git tag -a v1.1.0 -m "Release v1.1.0"
+git tag -a v1.1.1 -m "Release v1.1.1"
 make check-no-cursor-coauthor
 git push origin main
-git push origin v1.1.0
+git push origin v1.1.1
 ```
 
 ## Sync missing releases

@@ -15,6 +15,7 @@ use RuntimeException;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpKernel\Controller\ControllerReference;
 use Symfony\Component\HttpKernel\Fragment\FragmentHandler;
+use Symfony\Component\HttpKernel\Fragment\FragmentRendererInterface;
 
 #[CoversClass(ResilientFragmentHandler::class)]
 final class ResilientFragmentHandlerTest extends TestCase
@@ -82,7 +83,7 @@ final class ResilientFragmentHandlerTest extends TestCase
     public function testAddRendererDelegatesToInnerHandler(): void
     {
         $inner    = $this->createMock(FragmentHandler::class);
-        $renderer = $this->createMock(\Symfony\Component\HttpKernel\Fragment\FragmentRendererInterface::class);
+        $renderer = $this->createMock(FragmentRendererInterface::class);
         $inner->expects($this->once())->method('addRenderer')->with($renderer);
 
         $handler = new ResilientFragmentHandler(

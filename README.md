@@ -4,6 +4,10 @@
 
 > ⭐ **Found this useful?** Give it a star on GitHub! It helps us maintain and improve the project.
 
+![FrankenPHP Friendly Worker Mode](docs/images/frankenphp-friendly.png)
+
+This bundle is **FrankenPHP worker mode friendly**.
+
 Symfony bundle that makes Twig fragment sub-requests resilient when using `{ignore_errors: true}`.
 
 ## Features

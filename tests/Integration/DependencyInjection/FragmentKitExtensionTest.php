@@ -8,9 +8,11 @@ use Nowo\FragmentKitBundle\Contract\FragmentFailureReporterInterface;
 use Nowo\FragmentKitBundle\DependencyInjection\FragmentKitExtension;
 use Nowo\FragmentKitBundle\HttpKernel\Fragment\ResilientFragmentHandler;
 use Nowo\FragmentKitBundle\Null\NullFragmentFailureReporter;
+use Nowo\FragmentKitBundle\Sentry\SentryFragmentFailureReporter;
 use Nowo\FragmentKitBundle\Service\FragmentFailureRenderer;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
+use Sentry\State\HubInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 /**
@@ -41,8 +43,8 @@ final class FragmentKitExtensionTest extends TestCase
         self::assertTrue($container->hasDefinition(FragmentFailureRenderer::class));
         self::assertTrue($container->hasAlias(FragmentFailureReporterInterface::class));
 
-        $expectedReporter = interface_exists(\Sentry\State\HubInterface::class)
-            ? \Nowo\FragmentKitBundle\Sentry\SentryFragmentFailureReporter::class
+        $expectedReporter = interface_exists(HubInterface::class)
+            ? SentryFragmentFailureReporter::class
             : NullFragmentFailureReporter::class;
 
         self::assertSame(

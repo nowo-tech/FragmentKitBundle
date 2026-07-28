@@ -9,6 +9,7 @@ use Nowo\FragmentKitBundle\DependencyInjection\FragmentKitExtension;
 use Nowo\FragmentKitBundle\NowoFragmentKitBundle;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 #[CoversClass(NowoFragmentKitBundle::class)]
 final class NowoFragmentKitBundleTest extends TestCase
@@ -23,7 +24,7 @@ final class NowoFragmentKitBundleTest extends TestCase
 
     public function testBuildRegistersTwigPathsPass(): void
     {
-        $container = new \Symfony\Component\DependencyInjection\ContainerBuilder();
+        $container = new ContainerBuilder();
 
         (new NowoFragmentKitBundle())->build($container);
 

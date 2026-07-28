@@ -1,5 +1,33 @@
 # Upgrading
 
+## To 1.1.1
+
+```bash
+composer update nowo-tech/fragment-kit-bundle
+```
+
+Or require explicitly:
+
+```bash
+composer require nowo-tech/fragment-kit-bundle:^1.1.1
+```
+
+### Breaking changes
+
+None for valid configurations.
+
+### Integrator notes
+
+- **`sentry.level`** must be one of `debug`, `info`, `warning`, `error`, `fatal`. Invalid values now fail container compilation.
+- Public API and Twig namespace (`@NowoFragmentKitBundle/...`) are unchanged since 1.1.0.
+
+### Contributors / demos
+
+- Demo stack now includes Twig Inspector; run `make -C demo/symfony8 up` (or `make demo-smoke`) after pulling.
+- Prefer `make down-dev` / `make demo-smoke` as documented in the Makefile help.
+
+---
+
 ## To 1.1.0
 
 ```bash

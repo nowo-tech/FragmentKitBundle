@@ -8,6 +8,7 @@ use Nowo\FragmentKitBundle\Contract\FragmentFailureReporterInterface;
 use Nowo\FragmentKitBundle\HttpKernel\Fragment\ResilientFragmentHandler;
 use Nowo\FragmentKitBundle\Null\NullFragmentFailureReporter;
 use Nowo\FragmentKitBundle\Sentry\SentryFragmentFailureReporter;
+use Sentry\State\HubInterface;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\Extension;
@@ -48,7 +49,7 @@ class FragmentKitExtension extends Extension
      */
     private function registerFailureReporter(ContainerBuilder $container, array $sentryConfig): void
     {
-        if ($sentryConfig['enabled'] && interface_exists(\Sentry\State\HubInterface::class)) {
+        if ($sentryConfig['enabled'] && interface_exists(HubInterface::class)) {
             $container->setAlias(
                 FragmentFailureReporterInterface::class,
                 SentryFragmentFailureReporter::class,

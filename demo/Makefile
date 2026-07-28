@@ -1,4 +1,4 @@
-.PHONY: help up-symfony8 down-symfony8 install-symfony8 shell-symfony8 release-check update-bundle-symfony8
+.PHONY: help up-symfony8 down-symfony8 install-symfony8 shell-symfony8 release-check demo-smoke release-verify update-bundle-symfony8
 
 help:
 	@echo "Fragment Kit Bundle — Demos"
@@ -7,6 +7,8 @@ help:
 	@echo "  up-symfony8 down-symfony8 install-symfony8 shell-symfony8"
 	@echo ""
 	@echo "  release-check          Verify demo health (HTTP 200 + fallback text)"
+	@echo "  demo-smoke             REQ-TEST-011: up -> HTTP 200 -> down"
+	@echo "  release-verify         Alias of demo-smoke"
 
 up-symfony8:
 	@$(MAKE) -C symfony8 up
@@ -36,6 +38,19 @@ release-check:
 	echo "$$BODY" | grep -q 'HTTP 403' && \
 	echo "Symfony 8 Fragment Kit demo healthcheck OK (port $$PORT)" || \
 	(echo "Symfony 8 Fragment Kit demo healthcheck failed" && exit 1)
+
+# REQ-TEST-011: boot demo stack and expect HTTP 200
+demo-smoke:
+	@PORT=$$(grep "^PORT=" symfony8/.env.example 2>/dev/null | cut -d= -f2 | tr -d '\r'); \
+	[ -z "$$PORT" ] && PORT=8050; \
+	echo "Demo smoke: symfony8 (http://127.0.0.1:$$PORT)"; \
+	$(MAKE) up-symfony8; sleep 8; \
+	code=$$(curl -s -o /dev/null -w "%{http_code}" "http://127.0.0.1:$$PORT" 2>/dev/null || echo "000"); \
+	$(MAKE) down-symfony8 2>/dev/null || true; \
+	if [ "$$code" != "200" ]; then echo "symfony8 failed with HTTP $$code"; exit 1; fi; \
+	echo "symfony8 OK (HTTP $$code)"
+
+release-verify: demo-smoke
 
 DEMOS := symfony8
 BUNDLE_ROOT := $(abspath $(dir $(lastword $(MAKEFILE_LIST)))/..)
