@@ -17,7 +17,7 @@ use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 /**
  * Loads Fragment Kit services and applies enabled / Sentry reporter wiring.
  */
-class FragmentKitExtension extends Extension
+final class FragmentKitExtension extends Extension
 {
     public function getAlias(): string
     {

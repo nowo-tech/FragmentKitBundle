@@ -5,7 +5,37 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## Table of contents
+
+- [Unreleased](#unreleased)
+- [1.1.3](#113---2026-07-29)
+  - [Changed](#changed)
+- [1.1.2](#112---2026-07-28)
+  - [Added](#added)
+  - [Changed](#changed-1)
+- [1.1.1](#111---2026-07-28)
+  - [Added](#added-1)
+  - [Changed](#changed-2)
+- [1.1.0](#110---2026-07-22)
+  - [Added](#added-2)
+  - [Changed](#changed-3)
+  - [Migration](#migration)
+- [1.0.1](#101---2026-07-20)
+  - [Changed](#changed-4)
+  - [Changed (dev)](#changed-dev)
+- [1.0.0](#100---2026-07-16)
+  - [Added](#added-3)
+  - [Compatibility](#compatibility)
+
 ## [Unreleased]
+
+## [1.1.3] - 2026-07-29
+
+### Changed
+
+- Mark concrete `src/` classes as `final` / `final readonly` (REQ-PHP-001); drop redundant `readonly` on promoted props in readonly classes.
+- Makefiles: prefer Compose V2 (`docker compose`) with V1 fallback (REQ-MAKE-010); optional `-include` for monorepo `update-deps` helpers (REQ-MAKE-009).
+- Add TOC to long docs (CHANGELOG, UPGRADING, USAGE, INSTALLATION, CONTRIBUTING); GitHub topic `frankenphp`; PHPStan `ignoreErrors: []`; formalize REQ-SEC-004 Pass (good) in `docs/SECURITY.md`.
 
 ## [1.1.2] - 2026-07-28
 

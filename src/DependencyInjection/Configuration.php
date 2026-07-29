@@ -10,7 +10,7 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
 /**
  * Bundle configuration tree for `nowo_fragment_kit`.
  */
-class Configuration implements ConfigurationInterface
+final class Configuration implements ConfigurationInterface
 {
     public const ALIAS = 'nowo_fragment_kit';
 

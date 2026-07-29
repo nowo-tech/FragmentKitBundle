@@ -9,16 +9,16 @@ use Throwable;
 /**
  * Immutable context describing a suppressed fragment rendering failure.
  */
-class FragmentFailureContext
+final readonly class FragmentFailureContext
 {
     public function __construct(
-        public readonly Throwable $exception,
-        public readonly int $statusCode,
-        public readonly ?string $fragmentUri = null,
-        public readonly ?string $route = null,
-        public readonly ?string $parentRoute = null,
-        public readonly ?string $parentUri = null,
-        public readonly ?string $controller = null,
+        public Throwable $exception,
+        public int $statusCode,
+        public ?string $fragmentUri = null,
+        public ?string $route = null,
+        public ?string $parentRoute = null,
+        public ?string $parentUri = null,
+        public ?string $controller = null,
     ) {
     }
 }

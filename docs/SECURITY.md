@@ -11,6 +11,7 @@
 - [Reporting a vulnerability](#reporting-a-vulnerability)
 - [Supported versions](#supported-versions)
 - [Release security checklist (12.4.1)](#release-security-checklist-1241)
+- [AI security audit](#ai-security-audit)
 
 ## Scope
 
@@ -72,5 +73,16 @@ Before tagging a release, confirm:
 | **Logging / Sentry** | Events do not print secrets, tokens, or session identifiers unnecessarily. |
 | **Permissions / exposure** | No admin routes; fragment suppression is opt-in via config and Twig options. |
 | **Limits / DoS** | Fragment failures stay local to the sub-request; parent page continues. |
+| **AI security audit (REQ-SEC-004)** | Grade **Pass (good)** / risk **Low** (2026-07-28). Recorded in the Nowo monorepo `BUNDLES_SECURITY_ANALYSIS.md`. |
 
 Record confirmation in the release PR or tag notes.
+
+## AI security audit
+
+| Field | Value |
+| ----- | ----- |
+| Date | 2026-07-28 |
+| Grade | Pass (good) |
+| Risk | Low |
+| Method | Cursor security-review / campaign static pass (`src/`, Flex recipe, demo, SECURITY docs) |
+| Open residuals | None Critical/High. App-owned: avoid dumping exceptions/URIs in production fallbacks; align Sentry DSN/PII policy when reporting is enabled. |

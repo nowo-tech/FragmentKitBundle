@@ -12,14 +12,14 @@ use Sentry\State\HubInterface;
 /**
  * Reports suppressed fragment failures to Sentry when a Hub is available.
  */
-class SentryFragmentFailureReporter implements FragmentFailureReporterInterface
+final readonly class SentryFragmentFailureReporter implements FragmentFailureReporterInterface
 {
     /**
      * @param array{enabled: bool, level: string} $config
      */
     public function __construct(
-        private readonly ?HubInterface $hub,
-        private readonly array $config,
+        private ?HubInterface $hub,
+        private array $config,
     ) {
     }
 

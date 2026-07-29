@@ -13,10 +13,10 @@ use Throwable;
 /**
  * Builds {@see FragmentFailureContext} from an exception and the request stack.
  */
-class FragmentFailureContextFactory
+final readonly class FragmentFailureContextFactory
 {
     public function __construct(
-        private readonly RequestStack $requestStack,
+        private RequestStack $requestStack,
     ) {
     }
 

@@ -9,6 +9,7 @@ parameters:
         - tests
     excludePaths:
         - demo/*
+    ignoreErrors: []
 
 includes:
   - vendor/nowo-tech/phpstan-frankenphp/ruleset-classic.neon

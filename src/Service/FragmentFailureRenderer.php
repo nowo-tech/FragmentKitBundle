@@ -10,11 +10,11 @@ use Twig\Environment;
 /**
  * Renders Twig fallback content for a suppressed fragment failure.
  */
-class FragmentFailureRenderer
+final readonly class FragmentFailureRenderer
 {
     public function __construct(
-        private readonly Environment $twig,
-        private readonly ?string $template,
+        private Environment $twig,
+        private ?string $template,
     ) {
     }
 

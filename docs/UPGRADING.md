@@ -1,5 +1,61 @@
 # Upgrading
 
+## Table of contents
+
+- [To 1.1.3](#to-113)
+  - [Breaking changes](#breaking-changes)
+  - [Integrator notes](#integrator-notes)
+  - [Contributors / demos](#contributors--demos)
+- [To 1.1.2](#to-112)
+  - [Breaking changes](#breaking-changes-1)
+  - [Integrator notes](#integrator-notes-1)
+  - [Contributors / demos](#contributors--demos-1)
+- [To 1.1.1](#to-111)
+  - [Breaking changes](#breaking-changes-2)
+  - [Integrator notes](#integrator-notes-2)
+  - [Contributors / demos](#contributors--demos-2)
+- [To 1.1.0](#to-110)
+  - [Breaking / migration](#breaking--migration)
+  - [What is new](#what-is-new)
+  - [After upgrading](#after-upgrading)
+- [To 1.0.1](#to-101)
+  - [Breaking changes](#breaking-changes-3)
+  - [Integrator notes](#integrator-notes-3)
+  - [Contributors](#contributors)
+- [To 1.0.0 (initial release)](#to-100-initial-release)
+  - [Requirements](#requirements)
+  - [Enable and configure](#enable-and-configure)
+  - [Integrator notes](#integrator-notes-4)
+  - [Breaking changes](#breaking-changes-4)
+  - [After upgrading](#after-upgrading-1)
+
+## To 1.1.3
+
+```bash
+composer update nowo-tech/fragment-kit-bundle
+```
+
+Or require explicitly:
+
+```bash
+composer require nowo-tech/fragment-kit-bundle:^1.1.3
+```
+
+### Breaking changes
+
+- Concrete classes under `src/` are now **`final`** (and `FragmentFailureContext` is **`final readonly`**). Extending them is no longer possible; compose via configuration and public interfaces instead.
+
+### Integrator notes
+
+- Configuration keys, Twig namespace, and public interfaces are unchanged since 1.1.2.
+- REQ-SEC-004 Pass (good) / Low risk is recorded in `docs/SECURITY.md`.
+
+### Contributors / demos
+
+- Root and demo Makefiles prefer `docker compose` (V2) and tolerate missing monorepo `../.scripts` includes on standalone clones.
+
+---
+
 ## To 1.1.2
 
 ```bash

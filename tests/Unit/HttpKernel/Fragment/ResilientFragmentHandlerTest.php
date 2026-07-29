@@ -6,7 +6,6 @@ namespace Nowo\FragmentKitBundle\Tests\Unit\HttpKernel\Fragment;
 
 use Nowo\FragmentKitBundle\Contract\FragmentFailureReporterInterface;
 use Nowo\FragmentKitBundle\HttpKernel\Fragment\ResilientFragmentHandler;
-use Nowo\FragmentKitBundle\Model\FragmentFailureContext;
 use Nowo\FragmentKitBundle\Service\FragmentFailureContextFactory;
 use Nowo\FragmentKitBundle\Service\FragmentFailureRenderer;
 use PHPUnit\Framework\Attributes\CoversClass;
@@ -16,6 +15,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpKernel\Controller\ControllerReference;
 use Symfony\Component\HttpKernel\Fragment\FragmentHandler;
 use Symfony\Component\HttpKernel\Fragment\FragmentRendererInterface;
+use Twig\Environment;
 
 #[CoversClass(ResilientFragmentHandler::class)]
 final class ResilientFragmentHandlerTest extends TestCase
@@ -26,30 +26,25 @@ final class ResilientFragmentHandlerTest extends TestCase
         $inner     = $this->createMock(FragmentHandler::class);
         $inner->method('render')->willThrowException($exception);
 
-        $context = new FragmentFailureContext(
-            exception: $exception,
-            statusCode: 403,
-            fragmentUri: 'https://example.test/fragment',
-            route: 'child_route',
-            parentRoute: 'parent_route',
-            parentUri: '/parent',
-            controller: 'App\\Controller\\Foo::bar',
-        );
-
-        $contextFactory = $this->createMock(FragmentFailureContextFactory::class);
-        $contextFactory->expects($this->once())->method('fromException')->with($exception)->willReturn($context);
-
-        $failureRenderer = $this->createMock(FragmentFailureRenderer::class);
-        $failureRenderer->expects($this->once())->method('render')->with($context)->willReturn('<div>fallback</div>');
+        $twig = $this->createMock(Environment::class);
+        $twig->expects($this->once())
+            ->method('render')
+            ->with(
+                'fragment/unavailable.html.twig',
+                $this->callback(static fn (array $context): bool => $context['status_code'] === 403
+                    && $context['fragment_uri'] === 'https://example.test/fragment'
+                    && $context['exception'] === $exception),
+            )
+            ->willReturn('<div>fallback</div>');
 
         $reporter = $this->createMock(FragmentFailureReporterInterface::class);
-        $reporter->expects($this->once())->method('report')->with($context);
+        $reporter->expects($this->once())->method('report');
 
         $handler = new ResilientFragmentHandler(
             $inner,
             new RequestStack(),
-            $contextFactory,
-            $failureRenderer,
+            new FragmentFailureContextFactory(new RequestStack()),
+            new FragmentFailureRenderer($twig, 'fragment/unavailable.html.twig'),
             $reporter,
         );
 
@@ -71,8 +66,8 @@ final class ResilientFragmentHandlerTest extends TestCase
         $handler = new ResilientFragmentHandler(
             $inner,
             new RequestStack(),
-            $this->createMock(FragmentFailureContextFactory::class),
-            $this->createMock(FragmentFailureRenderer::class),
+            new FragmentFailureContextFactory(new RequestStack()),
+            new FragmentFailureRenderer($this->createMock(Environment::class), null),
             $this->createMock(FragmentFailureReporterInterface::class),
         );
 
@@ -89,8 +84,8 @@ final class ResilientFragmentHandlerTest extends TestCase
         $handler = new ResilientFragmentHandler(
             $inner,
             new RequestStack(),
-            $this->createMock(FragmentFailureContextFactory::class),
-            $this->createMock(FragmentFailureRenderer::class),
+            new FragmentFailureContextFactory(new RequestStack()),
+            new FragmentFailureRenderer($this->createMock(Environment::class), null),
             $this->createMock(FragmentFailureReporterInterface::class),
         );
 
@@ -106,8 +101,8 @@ final class ResilientFragmentHandlerTest extends TestCase
         $handler = new ResilientFragmentHandler(
             $inner,
             new RequestStack(),
-            $this->createMock(FragmentFailureContextFactory::class),
-            $this->createMock(FragmentFailureRenderer::class),
+            new FragmentFailureContextFactory(new RequestStack()),
+            new FragmentFailureRenderer($this->createMock(Environment::class), null),
             $this->createMock(FragmentFailureReporterInterface::class),
         );
 

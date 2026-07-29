@@ -18,7 +18,7 @@ use Throwable;
  * Decorates fragment.handler so Twig {ignore_errors: true} also tolerates HTTP error
  * responses from sub-requests, renders a fallback Twig template, and optionally reports to Sentry.
  */
-class ResilientFragmentHandler extends FragmentHandler
+final class ResilientFragmentHandler extends FragmentHandler
 {
     public function __construct(
         private readonly FragmentHandler $inner,

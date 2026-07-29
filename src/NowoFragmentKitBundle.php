@@ -13,7 +13,7 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
 /**
  * Resilient Symfony fragment rendering for Twig sub-requests ({ignore_errors: true}).
  */
-class NowoFragmentKitBundle extends Bundle
+final class NowoFragmentKitBundle extends Bundle
 {
     public function build(ContainerBuilder $container): void
     {

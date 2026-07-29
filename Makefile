@@ -3,7 +3,9 @@
 # All dev targets use the root docker-compose.yml (single file).
 
 COMPOSE_FILE := docker-compose.yml
-COMPOSE := docker-compose -f $(COMPOSE_FILE)
+# Prefer Compose V2 plugin (GitHub Actions / modern Docker Desktop); fall back to docker-compose V1 (REQ-MAKE-010).
+COMPOSE_BIN := $(shell docker compose version >/dev/null 2>&1 && echo "docker compose" || echo "docker-compose")
+COMPOSE     := $(COMPOSE_BIN) -f $(COMPOSE_FILE)
 SERVICE_PHP := php
 
 .PHONY: help ensure-up up down down-dev build shell install test test-coverage coverage-php-percent coverage-check test-coverage-100 cs-check cs-fix rector rector-dry phpstan qa release-check release-check-demos demo-smoke composer-sync clean update validate validate-translations assets setup-hooks check-no-cursor-coauthor check-open-prs strip-cursor-coauthor-from-history update-deps
@@ -163,4 +165,5 @@ strip-cursor-coauthor-from-history:
 
 # REQ-MAKE-008: update-deps (REQ-MAKE-008)
 BUNDLE_ROOT := $(abspath $(dir $(lastword $(MAKEFILE_LIST))))
-include $(BUNDLE_ROOT)/../.scripts/Makefile.update-deps.mk
+# Optional: monorepo helper absent on standalone GitHub Actions checkout (REQ-MAKE-009).
+-include $(BUNDLE_ROOT)/../.scripts/Makefile.update-deps.mk

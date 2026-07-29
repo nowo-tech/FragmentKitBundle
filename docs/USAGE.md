@@ -1,5 +1,14 @@
 # Usage
 
+## Table of contents
+
+- [Basic usage](#basic-usage)
+- [Fallback template variables](#fallback-template-variables)
+  - [Example custom fallback](#example-custom-fallback)
+- [Overriding the default Twig template (REQ-TWIG-001)](#overriding-the-default-twig-template-req-twig-001)
+- [Sentry](#sentry)
+- [Demo](#demo)
+
 ## Basic usage
 
 Wrap embedded controllers with `ignore_errors: true`:
