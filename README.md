@@ -4,11 +4,11 @@
 
 > ⭐ **Found this useful?** Give it a star on GitHub! It helps us maintain and improve the project.
 
+Symfony bundle that makes Twig fragment sub-requests resilient when using `{ignore_errors: true}`.
+
 ![FrankenPHP Friendly Worker Mode](docs/images/frankenphp-friendly.png)
 
 This bundle is **FrankenPHP worker mode friendly**.
-
-Symfony bundle that makes Twig fragment sub-requests resilient when using `{ignore_errors: true}`.
 
 ## Features
 
@@ -20,9 +20,12 @@ Symfony bundle that makes Twig fragment sub-requests resilient when using `{igno
 
 **FrankenPHP:** Demos use a **single PHP service** (FrankenPHP, no nginx). Runtime mode is controlled by **`FRANKENPHP_MODE`** in `.env` (**default `worker`**). Set `classic` for per-request PHP / easier hot-reload (entrypoint swaps in `Caddyfile.dev`). Recreate the container after changing the mode — no image rebuild. See [docs/DEMO-FRANKENPHP.md](docs/DEMO-FRANKENPHP.md).
 
-## Problem
+## Version information
 
-`{{ render(controller(...), {ignore_errors: true}) }}` only suppresses **exceptions** thrown during sub-requests. When the sub-request returns an HTTP error status (403, 404, …), `FragmentHandler::deliver()` throws a `RuntimeException` and the **parent page still fails with a 500**.
+| Version | PHP | Symfony | Status |
+|---------|-----|---------|--------|
+| 1.1.x | >= 8.2 | 7.4 – 8.1+ | Stable |
+| 1.0.x | >= 8.2 | 7.4 – 8.1+ | Security / maintenance |
 
 ## Installation
 
@@ -46,6 +49,25 @@ Nowo\FragmentKitBundle\NowoFragmentKitBundle::class => ['all' => true],
 - Symfony `^7.4 || ^8.0` (CI covers **7.4**, **8.0**, **8.1**)
 - Twig Bundle
 
+## Problem
+
+`{{ render(controller(...), {ignore_errors: true}) }}` only suppresses **exceptions** thrown during sub-requests. When the sub-request returns an HTTP error status (403, 404, …), `FragmentHandler::deliver()` throws a `RuntimeException` and the **parent page still fails with a 500**.
+
+## Demos
+
+```bash
+make -C demo up-symfony8   # http://localhost:8050 (default PORT)
+```
+
+## Development
+
+```bash
+make setup-hooks
+make up
+make install
+make release-check
+```
+
 ## Documentation
 
 - [Installation](docs/INSTALLATION.md)
@@ -67,19 +89,6 @@ Nowo\FragmentKitBundle\NowoFragmentKitBundle::class => ['all' => true],
 - [Demo with FrankenPHP](docs/DEMO-FRANKENPHP.md) (includes worker mode)
 - [Server cookbook (Nginx, php-fpm, FrankenPHP)](docs/SERVERS.md)
 
-## Version information
-
-| Version | PHP | Symfony | Status |
-|---------|-----|---------|--------|
-| 1.1.x | >= 8.2 | 7.4 – 8.1+ | Stable |
-| 1.0.x | >= 8.2 | 7.4 – 8.1+ | Security / maintenance |
-
-## Demos
-
-```bash
-make -C demo up-symfony8   # http://localhost:8050 (default PORT)
-```
-
 ## Tests and coverage
 
 ```bash
@@ -89,15 +98,6 @@ make test-coverage
 
 - Tests: PHPUnit (unit + integration)
 - PHP: **100%** lines (`make test-coverage`)
-
-## Development
-
-```bash
-make setup-hooks
-make up
-make install
-make release-check
-```
 
 ## License
 
