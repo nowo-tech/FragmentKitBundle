@@ -3,6 +3,7 @@
 ## Table of contents
 
 - [Unreleased](#unreleased)
+- [To 1.2.1](#to-121)
 - [To 1.2.0](#to-120)
 - [To 1.1.3](#to-113)
   - [Breaking changes](#breaking-changes)
@@ -33,6 +34,14 @@
 
 
 ## Unreleased
+
+## To 1.2.1
+
+From **1.2.0** — No application upgrade steps. **Demos only:** Hot Reload Bundle `^1.4` (FrankenPHP Mercure/`hot_reload`, `dev`/`test`).
+
+```bash
+composer update nowo-tech/fragment-kit-bundle
+```
 
 ## To 1.2.0
 

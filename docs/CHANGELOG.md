@@ -29,6 +29,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [1.2.1] - 2026-08-18
+
+### Changed
+
+- **Demos:** pin `nowo-tech/hot-reload-bundle` to `^1.4` with FrankenPHP Mercure/`hot_reload` (`dev`/`test` only).
+
+[1.2.1]: https://github.com/nowo-tech/FragmentKitBundle/releases/tag/v1.2.1
+
 ## [1.2.0] - 2026-08-04
 
 ### Added
