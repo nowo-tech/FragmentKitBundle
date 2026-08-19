@@ -29,6 +29,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [1.2.2] - 2026-08-19
+
+### Security
+
+- **CI:** run `composer audit --locked` after dependency install (REQ-SEC / P3).
+
 ## [1.2.1] - 2026-08-18
 
 ### Changed
