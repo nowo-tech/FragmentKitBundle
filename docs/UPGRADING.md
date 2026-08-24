@@ -2,6 +2,8 @@
 
 ## Table of contents
 
+
+- [From 1.2.2 to 1.2.3](#from-122-to-123)
 - [Unreleased](#unreleased)
 - [To 1.2.2](#to-122)
 - [To 1.2.1](#to-121)

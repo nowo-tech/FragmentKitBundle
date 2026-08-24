@@ -29,6 +29,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+
+## [1.2.3] - 2026-08-24
+
+### Changed
+
+- **QA:** add `phpstan-frankenphp` extension (REQ-CS-005).
+- **Docs:** PHP-FIG PSR evaluation (REQ-CS-007).
+- **Dependencies:** routine Composer/npm bumps (Dependabot).
+
+### Notes
+
+- **No API or configuration changes** for integrators unless noted above.
+
+[1.2.3]: https://github.com/nowo-tech/FragmentKitBundle/releases/tag/v1.2.3
+
 ## [1.2.2] - 2026-08-19
 
 ### Security
