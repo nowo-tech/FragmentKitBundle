@@ -6,7 +6,9 @@ FragmentKitBundle does **not** expose public HTTP endpoints. It decorates Symfon
 
 Ensure all application requests reach `public/index.php` (standard Symfony front controller). No special Caddy routes are required for this bundle.
 
-Worker mode boots Symfony once and reuses the kernel. Fragment decoration is registered at compile time and is compatible with workers.
+Worker mode boots Symfony once and **reuses the kernel** by default (`FRANKENPHP_RESET_KERNEL` unset or `0`). Fragment decoration is registered at compile time; bundle services hold no per-request state and need no `kernel.reset`. See [FRANKENPHP-WORKER-AUDIT.md](FRANKENPHP-WORKER-AUDIT.md).
+
+Set `FRANKENPHP_RESET_KERNEL=1` only if you need a fresh kernel each request (escape hatch; lower throughput). The bundle remains compatible either way.
 
 ## php-fpm + Nginx
 

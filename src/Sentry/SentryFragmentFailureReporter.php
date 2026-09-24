@@ -11,6 +11,9 @@ use Sentry\State\HubInterface;
 
 /**
  * Reports suppressed fragment failures to Sentry when a Hub is available.
+ *
+ * Uses {@see HubInterface::withScope()} so tags/extras do not leak across requests when
+ * the kernel is reused (FrankenPHP worker, `FRANKENPHP_RESET_KERNEL` unset/false).
  */
 final readonly class SentryFragmentFailureReporter implements FragmentFailureReporterInterface
 {

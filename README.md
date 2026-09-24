@@ -8,7 +8,7 @@ Symfony bundle that makes Twig fragment sub-requests resilient when using `{igno
 
 ![FrankenPHP Friendly Worker Mode](docs/images/frankenphp-friendly.png)
 
-This bundle is **FrankenPHP worker mode friendly**.
+This bundle is **FrankenPHP worker mode friendly** (kernel reused / `FRANKENPHP_RESET_KERNEL` unset or `0`). See [docs/FRANKENPHP-WORKER-AUDIT.md](docs/FRANKENPHP-WORKER-AUDIT.md).
 
 ## Features
 
@@ -89,6 +89,7 @@ make release-check
 
 - [GitHub Actions CI requirements](docs/GITHUB_CI.md)
 - [Demo with FrankenPHP](docs/DEMO-FRANKENPHP.md) (includes worker mode)
+- [FrankenPHP worker audit (`FRANKENPHP_RESET_KERNEL` unset/false)](docs/FRANKENPHP-WORKER-AUDIT.md)
 - [Server cookbook (Nginx, php-fpm, FrankenPHP)](docs/SERVERS.md)
 
 ## Tests and coverage

@@ -78,6 +78,7 @@ As an integrator, I set `enabled: false` to remove the decorator and restore sto
 | FR-FK-006 | `FragmentFailureReporterInterface` with Null and Sentry implementations |
 | FR-FK-007 | Flex recipe ships default `nowo_fragment_kit.yaml` |
 | FR-FK-008 | Twig namespace `NowoFragmentKitBundle` registered with app override precedence |
+| FR-FK-009 | FrankenPHP worker-safe with kernel reuse (`FRANKENPHP_RESET_KERNEL` unset/false): no per-request state in shared services; Sentry uses `withScope()` |
 
 ---
 
@@ -87,3 +88,4 @@ As an integrator, I set `enabled: false` to remove the decorator and restore sto
 - Integration test boots Extension with sample config.
 - Demo healthcheck proves parent 200 + fallback for HTTP 403 fragment.
 - `make release-check` passes.
+- FrankenPHP worker audit (`docs/FRANKENPHP-WORKER-AUDIT.md`) documents compatibility with kernel reuse (`FRANKENPHP_RESET_KERNEL` unset/false); PHPStan classic+worker rulesets green.

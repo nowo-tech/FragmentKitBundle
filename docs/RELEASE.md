@@ -10,21 +10,21 @@
 
 After creating the release commit and tag, run `make check-no-cursor-coauthor` again **before** `git push` (REQ-GIT-001). The release commit itself is not covered by an earlier `release-check` run.
 
-## Example for v1.1.3
+## Example for v1.2.4
 
 ```bash
 git add -A
 git status   # review
 make release-check
 git commit -m "$(cat <<'EOF'
-Release 1.1.3: final classes, Compose V2, SEC-004 Pass.
+Release 1.2.4: FrankenPHP worker audit (RESET_KERNEL unset/false).
 
 EOF
 )"
-git tag -a v1.1.3 -m "Release v1.1.3"
+git tag -a v1.2.4 -m "Release v1.2.4"
 make check-no-cursor-coauthor
 git push origin main
-git push origin v1.1.3
+git push origin v1.2.4
 ```
 
 ## Sync missing releases

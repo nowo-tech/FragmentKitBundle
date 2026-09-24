@@ -7,6 +7,7 @@
   - [Example custom fallback](#example-custom-fallback)
 - [Overriding the default Twig template (REQ-TWIG-001)](#overriding-the-default-twig-template-req-twig-001)
 - [Sentry](#sentry)
+- [FrankenPHP worker](#frankenphp-worker)
 - [Demo](#demo)
 
 ## Basic usage
@@ -67,6 +68,12 @@ Requires `sentry/sentry-symfony`. Events are tagged with:
 ```bash
 composer require sentry/sentry-symfony
 ```
+
+## FrankenPHP worker
+
+This bundle is compatible with FrankenPHP **worker** when the Symfony kernel is **reused** between requests (`FRANKENPHP_RESET_KERNEL` unset or `0` — the Runtime default). Bundle services hold only injected collaborators / compiled configuration; they do not need `kernel.reset`. Custom `FragmentFailureReporterInterface` implementations must stay stateless (or implement `ResetInterface`) and must not buffer failure contexts.
+
+See [FRANKENPHP-WORKER-AUDIT.md](FRANKENPHP-WORKER-AUDIT.md).
 
 ## Demo
 

@@ -10,6 +10,7 @@ The Symfony 8 demo runs as a **single FrankenPHP container** (no separate Nginx)
 - [What the demo shows](#what-the-demo-shows)
 - [PHP version (REQ-DEMO-010)](#php-version-req-demo-010)
 - [FRANKENPHP_MODE (classic vs worker)](#frankenphp_mode-classic-vs-worker)
+- [Kernel reuse (`FRANKENPHP_RESET_KERNEL`)](#kernel-reuse-frankenphp_reset_kernel)
 - [Bundle path repository](#bundle-path-repository)
 - [Verify](#verify)
 
@@ -55,6 +56,10 @@ make -C demo/symfony8 up
 A plain `docker compose restart` does **not** reload env; recreate with `up -d` after editing `.env`.
 
 The Docker entrypoint copies the matching Caddyfile into `/etc/frankenphp/Caddyfile` before starting FrankenPHP.
+
+## Kernel reuse (`FRANKENPHP_RESET_KERNEL`)
+
+With Symfony Runtime, the worker **reuses the kernel** by default (`FRANKENPHP_RESET_KERNEL` unset or `0`). Set `FRANKENPHP_RESET_KERNEL=1` only if you need a fresh kernel each request (lower throughput). Fragment Kit is audited for the default (no reset): see [FRANKENPHP-WORKER-AUDIT.md](FRANKENPHP-WORKER-AUDIT.md).
 
 ## Bundle path repository
 

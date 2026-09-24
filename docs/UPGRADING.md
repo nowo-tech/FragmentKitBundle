@@ -2,9 +2,9 @@
 
 ## Table of contents
 
-
-- [From 1.2.2 to 1.2.3](#from-122-to-123)
 - [Unreleased](#unreleased)
+- [To 1.2.4](#to-124)
+- [From 1.2.2 to 1.2.3](#from-122-to-123)
 - [To 1.2.2](#to-122)
 - [To 1.2.1](#to-121)
 - [To 1.2.0](#to-120)
@@ -37,6 +37,27 @@
 
 
 ## Unreleased
+
+## To 1.2.4
+
+From **1.2.3** — No application upgrade steps. Documentation and worker audit only.
+
+```bash
+composer update nowo-tech/fragment-kit-bundle
+```
+
+FrankenPHP worker (kernel reused / `FRANKENPHP_RESET_KERNEL` unset or `0`):
+
+- No config changes; see [FRANKENPHP-WORKER-AUDIT.md](FRANKENPHP-WORKER-AUDIT.md).
+- Custom `FragmentFailureReporterInterface` implementations must remain stateless (or implement `ResetInterface`) and must not buffer contexts.
+
+## From 1.2.2 to 1.2.3
+
+From **1.2.2** — No application upgrade steps (QA/docs/deps).
+
+```bash
+composer update nowo-tech/fragment-kit-bundle
+```
 
 ## To 1.2.2
 

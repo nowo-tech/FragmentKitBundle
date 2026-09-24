@@ -8,6 +8,8 @@ services:
     resource: '../../*'
     exclude:
       - '../../DependencyInjection/'
+      - '../../Contract/'
+      - '../../Model/'
       - '../../NowoFragmentKitBundle.php'
 
   Nowo\FragmentKitBundle\Service\FragmentFailureRenderer:

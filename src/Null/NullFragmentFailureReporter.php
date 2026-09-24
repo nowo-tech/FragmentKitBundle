@@ -9,8 +9,10 @@ use Nowo\FragmentKitBundle\Model\FragmentFailureContext;
 
 /**
  * No-op reporter used when Sentry is disabled or unavailable.
+ *
+ * Stateless — safe under FrankenPHP worker with kernel reuse (`FRANKENPHP_RESET_KERNEL` unset/false).
  */
-final class NullFragmentFailureReporter implements FragmentFailureReporterInterface
+final readonly class NullFragmentFailureReporter implements FragmentFailureReporterInterface
 {
     public function report(FragmentFailureContext $context): void
     {

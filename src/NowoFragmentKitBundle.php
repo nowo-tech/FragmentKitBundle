@@ -23,9 +23,7 @@ final class NowoFragmentKitBundle extends Bundle
 
     public function getContainerExtension(): ExtensionInterface
     {
-        if ($this->extension === null) {
-            $this->extension = new FragmentKitExtension();
-        }
+        $this->extension ??= new FragmentKitExtension();
 
         /** @var ExtensionInterface $extension */
         $extension = $this->extension;

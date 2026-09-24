@@ -8,27 +8,57 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 ## Table of contents
 
 - [Unreleased](#unreleased)
-- [1.1.3](#113---2026-07-29)
-  - [Changed](#changed)
-- [1.1.2](#112---2026-07-28)
+- [1.2.4](#124---2026-09-24)
   - [Added](#added)
+  - [Changed](#changed)
+- [1.2.3](#123---2026-08-24)
   - [Changed](#changed-1)
-- [1.1.1](#111---2026-07-28)
-  - [Added](#added-1)
+  - [Notes](#notes)
+- [1.2.2](#122---2026-08-19)
+  - [Security](#security)
+- [1.2.1](#121---2026-08-18)
   - [Changed](#changed-2)
-- [1.1.0](#110---2026-07-22)
-  - [Added](#added-2)
+- [1.2.0](#120---2026-08-04)
+  - [Added](#added-1)
+- [1.1.3](#113---2026-07-29)
   - [Changed](#changed-3)
+- [1.1.2](#112---2026-07-28)
+  - [Added](#added-2)
+  - [Changed](#changed-4)
+- [1.1.1](#111---2026-07-28)
+  - [Added](#added-3)
+  - [Changed](#changed-5)
+- [1.1.0](#110---2026-07-22)
+  - [Added](#added-4)
+  - [Changed](#changed-6)
   - [Migration](#migration)
 - [1.0.1](#101---2026-07-20)
-  - [Changed](#changed-4)
+  - [Changed](#changed-7)
   - [Changed (dev)](#changed-dev)
 - [1.0.0](#100---2026-07-16)
-  - [Added](#added-3)
+  - [Added](#added-5)
   - [Compatibility](#compatibility)
 
 ## [Unreleased]
 
+## [1.2.4] - 2026-09-24
+
+### Added
+
+- **FrankenPHP worker audit** — `docs/FRANKENPHP-WORKER-AUDIT.md` for kernel reuse (`FRANKENPHP_RESET_KERNEL` unset/false); linked from README, USAGE, SERVERS, DEMO-FRANKENPHP (REQ-DEMO-008).
+- Spec **FR-FK-009** / success criterion for worker + PHPStan classic/worker rulesets.
+
+### Changed
+
+- Document kernel reuse (`FRANKENPHP_RESET_KERNEL` unset/`0`) across README and FrankenPHP docs; custom reporter contract notes worker safety.
+- `NullFragmentFailureReporter` is `final readonly`; exclude `Contract/` and `Model/` from the service resource loader.
+- PHPDoc on `ResilientFragmentHandler` / Sentry reporter clarifying no per-request state and `withScope()` isolation.
+
+### Notes
+
+- **No API or configuration changes** for integrators; runtime behaviour unchanged.
+
+[1.2.4]: https://github.com/nowo-tech/FragmentKitBundle/releases/tag/v1.2.4
 
 ## [1.2.3] - 2026-08-24
 
@@ -105,7 +135,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 - **`sentry.level`** — validated as enum (`debug|info|warning|error|fatal`); invalid values are rejected (`REQ-SF-006`).
 - PHPUnit: `SYMFONY_DEPRECATIONS_HELPER=max[direct]=0` (`REQ-SF-005`).
 - Demo `.env.example` / `.gitignore` aligned with REQ-DEMO-003 / REQ-ENV-001; TOC in long docs (`REQ-DOCS-005`).
-- Root `release-check-demos` no longer swallows demo failures.
+- Root `release-check` demos no longer swallows demo failures.
 
 ## [1.1.0] - 2026-07-22
 

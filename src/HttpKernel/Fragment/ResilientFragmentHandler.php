@@ -17,6 +17,9 @@ use Throwable;
 /**
  * Decorates fragment.handler so Twig {ignore_errors: true} also tolerates HTTP error
  * responses from sub-requests, renders a fallback Twig template, and optionally reports to Sentry.
+ *
+ * Worker-safe with kernel reuse (`FRANKENPHP_RESET_KERNEL` unset/false): collaborators are
+ * readonly; rendering delegates to the inner handler; no per-request state is stored here.
  */
 final class ResilientFragmentHandler extends FragmentHandler
 {
