@@ -34,6 +34,7 @@ final readonly class SentryFragmentFailureReporter implements FragmentFailureRep
 
         $severity = $this->resolveSeverity($this->config['level']);
 
+        // @igor-ignore - Cache callback; captured vars are per-call arguments only
         $this->hub->withScope(function ($scope) use ($context, $severity): void {
             $scope->setLevel($severity);
             $scope->setTag('fragment.failure', 'true');

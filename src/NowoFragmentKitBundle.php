@@ -23,6 +23,7 @@ final class NowoFragmentKitBundle extends Bundle
 
     public function getContainerExtension(): ExtensionInterface
     {
+        // @igor-ignore - Symfony bundle extension lazy-init at boot; not request state
         $this->extension ??= new FragmentKitExtension();
 
         /** @var ExtensionInterface $extension */
