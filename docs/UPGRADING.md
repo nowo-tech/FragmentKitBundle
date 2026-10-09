@@ -3,6 +3,7 @@
 ## Table of contents
 
 - [Unreleased](#unreleased)
+- [To 1.2.6](#to-126)
 - [To 1.2.5](#to-125)
 - [To 1.2.4](#to-124)
 - [From 1.2.2 to 1.2.3](#from-122-to-123)
@@ -38,6 +39,16 @@
 
 
 ## Unreleased
+
+## To 1.2.6
+
+From **1.2.5** — dependency updates only.
+
+```bash
+composer update nowo-tech/fragment-kit-bundle
+```
+
+No breaking changes. **No application upgrade steps.**
 
 ## To 1.2.5
 

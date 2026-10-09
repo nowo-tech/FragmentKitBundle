@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 ## Table of contents
 
 - [Unreleased](#unreleased)
+- [1.2.6](#126---2026-10-09)
 - [1.2.4](#124---2026-09-24)
   - [Added](#added)
   - [Changed](#changed)
@@ -40,6 +41,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
   - [Compatibility](#compatibility)
 
 ## [Unreleased]
+
+## [1.2.6] - 2026-10-09
+
+### Dependencies
+
+- Dev tooling (Dependabot): `igor-php/igor-php` `^0.10.0` (lock 0.10.1), `nowo-tech/phpstan-frankenphp` 1.2.3, `phpstan/phpstan-phpunit` 2.1.1.
+- Lockfile refresh: Symfony 7.4.20, `twig/twig` 3.30.0; dev `phpstan/phpstan` 2.3.1, `phpstan/phpstan-symfony` 2.1.0, `rector/rector` 2.7.0, `phpunit/phpunit` 11.5.57.
+
+[1.2.6]: https://github.com/nowo-tech/FragmentKitBundle/releases/tag/v1.2.6
 
 ## [1.2.5] - 2026-09-27
 
