@@ -24,18 +24,24 @@ If the sub-request throws **or** returns an HTTP error status (403, 404, 500, â€
 2. Renders the configured fallback template (or empty string)
 3. Lets the **parent response continue** with HTTP 200
 
-Without this bundle, HTTP error statuses from fragments still surface as a parent 500 via `FragmentHandler::deliver()`.
+Without this bundle, HTTP error statuses from fragments still surface as a parent 500 via `FragmentHandler::deliver()`, and controller exceptions are swallowed into an empty fragment without any fallback or report.
+
+Notes:
+
+- When `ignore_errors` is not set, it defaults to `!kernel.debug` (same as Symfony): errors are tolerated in prod and surface in dev.
+- For the `inline` renderer the bundle renders the sub-request with `ignore_errors: false` and handles the failure itself, so an `alt` fallback (`{alt: controller(...)}`) is still tried first; FragmentKit only steps in when `alt` is missing or fails too. Exceptions are reported through the configured reporter (Sentry) rather than Symfony's `kernel.exception` logging.
+- `esi` / `ssi` renderers keep receiving `ignore_errors` unchanged (it becomes `onerror="continue"` in the include tag).
 
 ## Fallback template variables
 
 | Variable | Description |
 |----------|-------------|
 | `status_code` | HTTP status of the failed fragment (when known) |
-| `fragment_uri` | URI of the failed sub-request |
-| `route` | Sub-request route name |
+| `fragment_uri` | URI passed to `render()`; for `controller(...)` the (unsigned) `/_fragment` URI, or `null` if it cannot be generated |
+| `route` | Sub-request route name (`null`: the sub-request is gone when the failure is handled) |
 | `parent_route` | Parent page route name |
 | `parent_uri` | Parent page URI |
-| `controller` | Sub-request controller |
+| `controller` | Controller of a `controller(...)` reference (`null` for plain URIs) |
 | `exception` | Original exception |
 
 ### Example custom fallback

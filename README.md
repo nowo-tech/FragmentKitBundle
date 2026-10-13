@@ -52,7 +52,7 @@ Nowo\FragmentKitBundle\NowoFragmentKitBundle::class => ['all' => true],
 
 ## Problem
 
-`{{ render(controller(...), {ignore_errors: true}) }}` only suppresses **exceptions** thrown during sub-requests. When the sub-request returns an HTTP error status (403, 404, …), `FragmentHandler::deliver()` throws a `RuntimeException` and the **parent page still fails with a 500**.
+`{{ render(controller(...), {ignore_errors: true}) }}` only suppresses **exceptions** thrown during sub-requests. When the sub-request returns an HTTP error status (403, 404, …), `FragmentHandler::deliver()` throws a `RuntimeException` and the **parent page still fails with a 500**; and exceptions thrown by the fragment controller are swallowed into an empty string with no fallback and no report. FragmentKit handles both (see [Usage](docs/USAGE.md#basic-usage)).
 
 ## Demos
 

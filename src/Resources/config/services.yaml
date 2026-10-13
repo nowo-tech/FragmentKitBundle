@@ -24,3 +24,4 @@ services:
     decorates: fragment.handler
     arguments:
       $inner: '@.inner'
+      $debug: '%kernel.debug%'

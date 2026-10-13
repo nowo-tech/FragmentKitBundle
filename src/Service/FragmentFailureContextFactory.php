@@ -7,7 +7,9 @@ namespace Nowo\FragmentKitBundle\Service;
 use Nowo\FragmentKitBundle\Model\FragmentFailureContext;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\HttpKernel\Controller\ControllerReference;
 use Symfony\Component\HttpKernel\Exception\HttpException;
+use Symfony\Component\HttpKernel\Fragment\FragmentUriGeneratorInterface;
 use Throwable;
 
 /**
@@ -17,11 +19,22 @@ final readonly class FragmentFailureContextFactory
 {
     public function __construct(
         private RequestStack $requestStack,
+        private ?FragmentUriGeneratorInterface $fragmentUriGenerator = null,
     ) {
     }
 
-    public function fromException(Throwable $exception): FragmentFailureContext
+    /**
+     * @param ControllerReference|string|null $fragment The URI / controller passed to the fragment handler. When given,
+     *                                                  the fragment URI and controller come from it and the current request
+     *                                                  is treated as the parent page (the inline renderer has already
+     *                                                  popped the sub-request when the failure surfaces).
+     */
+    public function fromException(Throwable $exception, string|ControllerReference|null $fragment = null): FragmentFailureContext
     {
+        if ($fragment !== null) {
+            return $this->fromFragment($exception, $fragment);
+        }
+
         $statusCode    = $this->resolveStatusCode($exception);
         $fragmentUri   = $this->resolveFragmentUri($exception);
         $request       = $this->requestStack->getCurrentRequest();
@@ -36,6 +49,35 @@ final readonly class FragmentFailureContextFactory
             parentUri: $parentRequest instanceof Request ? $parentRequest->getRequestUri() : null,
             controller: $request instanceof Request ? $request->attributes->getString('_controller') ?: null : null,
         );
+    }
+
+    private function fromFragment(Throwable $exception, string|ControllerReference $fragment): FragmentFailureContext
+    {
+        $parentRequest = $this->requestStack->getCurrentRequest();
+
+        return new FragmentFailureContext(
+            exception: $exception,
+            statusCode: $this->resolveStatusCode($exception),
+            fragmentUri: $fragment instanceof ControllerReference ? $this->generateFragmentUri($fragment, $parentRequest) : $fragment,
+            route: null,
+            parentRoute: $parentRequest instanceof Request ? $parentRequest->attributes->getString('_route') ?: null : null,
+            parentUri: $parentRequest instanceof Request ? $parentRequest->getRequestUri() : null,
+            controller: $fragment instanceof ControllerReference ? $fragment->controller : null,
+        );
+    }
+
+    private function generateFragmentUri(ControllerReference $controller, ?Request $parentRequest): ?string
+    {
+        if ($this->fragmentUriGenerator === null) {
+            return null;
+        }
+
+        try {
+            // Unsigned: the URI is only used for diagnostics (fallback template, error reporting).
+            return $this->fragmentUriGenerator->generate($controller, $parentRequest, false, false, false);
+        } catch (Throwable) {
+            return null;
+        }
     }
 
     private function resolveStatusCode(Throwable $exception): int

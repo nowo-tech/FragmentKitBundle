@@ -42,6 +42,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+### Fixed
+
+- Controller exceptions in fragments rendered with `ignore_errors: true` now get the fallback template and are reported (the inline renderer used to swallow them into an empty string first). The inline renderer is now called with `ignore_errors: false` and every failure is handled by FragmentKit; `alt` fallbacks are still tried first.
+- `ignore_errors` now defaults to `!kernel.debug` when not set, like Symfony's `FragmentHandler` (previously treated as `false`).
+- Failure context (`fragment_uri`, `controller`, `route`, `parent_*`) no longer reports the parent page as the failing fragment: it is built from the URI / `controller()` reference passed to `render()`, with the current request as parent.
+
 ## [1.2.6] - 2026-10-09
 
 ### Dependencies
