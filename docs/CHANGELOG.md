@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 ## Table of contents
 
 - [Unreleased](#unreleased)
+- [1.3.0](#130---2026-10-13)
 - [1.2.6](#126---2026-10-09)
 - [1.2.4](#124---2026-09-24)
   - [Added](#added)
@@ -42,11 +43,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [1.3.0] - 2026-10-13
+
 ### Fixed
 
 - Controller exceptions in fragments rendered with `ignore_errors: true` now get the fallback template and are reported (the inline renderer used to swallow them into an empty string first). The inline renderer is now called with `ignore_errors: false` and every failure is handled by FragmentKit; `alt` fallbacks are still tried first.
 - `ignore_errors` now defaults to `!kernel.debug` when not set, like Symfony's `FragmentHandler` (previously treated as `false`).
 - Failure context (`fragment_uri`, `controller`, `route`, `parent_*`) no longer reports the parent page as the failing fragment: it is built from the URI / `controller()` reference passed to `render()`, with the current request as parent.
+
+### Changed
+
+- Repository: `.twig-cs-fixer.cache` is now git-ignored.
+
+[1.3.0]: https://github.com/nowo-tech/FragmentKitBundle/releases/tag/v1.3.0
 
 ## [1.2.6] - 2026-10-09
 

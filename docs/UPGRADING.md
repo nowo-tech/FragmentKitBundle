@@ -3,6 +3,7 @@
 ## Table of contents
 
 - [Unreleased](#unreleased)
+- [To 1.3.0](#to-130)
 - [To 1.2.6](#to-126)
 - [To 1.2.5](#to-125)
 - [To 1.2.4](#to-124)
@@ -37,8 +38,19 @@
   - [Breaking changes](#breaking-changes-4)
   - [After upgrading](#after-upgrading-1)
 
-
 ## Unreleased
+
+## To 1.3.0
+
+From **1.2.6** — fragment controller exceptions handled and reported with the fragment's own context.
+
+```bash
+composer update nowo-tech/fragment-kit-bundle
+```
+
+- With `ignore_errors` true (or unset in prod, now defaulting to `!kernel.debug`), an exception in a fragment controller renders the fallback template and is reported (Sentry) instead of producing an empty string.
+- Failure context: `route` is now null and `fragment_uri` / `controller` describe the fragment, not the parent page.
+- Symfony's `kernel.exception` logging no longer fires for these inline fragment failures; reporting goes through the bundle's reporter.
 
 ## To 1.2.6
 
@@ -60,7 +72,6 @@ php bin/console cache:clear
 ```
 
 - No application upgrade steps for require-dev Igor tooling (REQ-CS-008). Consumers do not pull `igor-php/igor-php` transitively.
-
 
 ## To 1.2.4
 
@@ -121,7 +132,6 @@ and enable `Twig\Extra\TwigExtraBundle\TwigExtraBundle`. Flex recipes usually re
 ### Twig-CS-Fixer (maintainers)
 
 Package maintainers: `composer twig:lint` / `composer twig:fix` use `.twig-cs-fixer.php` over `src/` (and `templates/` when present).
-
 
 ## To 1.1.3
 
