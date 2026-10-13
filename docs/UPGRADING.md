@@ -12,6 +12,8 @@
 - [To 1.2.2](#to-122)
 - [To 1.2.1](#to-121)
 - [To 1.2.0](#to-120)
+  - [Twig Extra Bundle (REQ-TWIG-004)](#twig-extra-bundle-req-twig-004)
+  - [Twig-CS-Fixer (maintainers)](#twig-cs-fixer-maintainers)
 - [To 1.1.3](#to-113)
   - [Breaking changes](#breaking-changes)
   - [Integrator notes](#integrator-notes)
