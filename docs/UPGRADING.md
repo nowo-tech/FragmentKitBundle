@@ -3,6 +3,7 @@
 ## Table of contents
 
 - [Unreleased](#unreleased)
+- [To 1.3.1](#to-131)
 - [To 1.3.0](#to-130)
 - [To 1.2.6](#to-126)
 - [To 1.2.5](#to-125)
@@ -39,6 +40,16 @@
   - [After upgrading](#after-upgrading-1)
 
 ## Unreleased
+
+## To 1.3.1
+
+From **1.3.0** — CI covers PHP 8.5.
+
+```bash
+composer update nowo-tech/fragment-kit-bundle
+```
+
+- No application upgrade steps.
 
 ## To 1.3.0
 

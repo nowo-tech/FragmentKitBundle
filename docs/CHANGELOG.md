@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 ## Table of contents
 
 - [Unreleased](#unreleased)
+- [1.3.1](#131---2026-10-13)
 - [1.3.0](#130---2026-10-13)
 - [1.2.6](#126---2026-10-09)
 - [1.2.4](#124---2026-09-24)
@@ -43,9 +44,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [1.3.1] - 2026-10-13
+
 ### Changed
 
 - CI: the test matrix now includes PHP 8.5 (Symfony 7.4, 8.0, 8.1), matching the `php: >=8.2 <8.6` constraint.
+
+[1.3.1]: https://github.com/nowo-tech/FragmentKitBundle/releases/tag/v1.3.1
 
 ## [1.3.0] - 2026-10-13
 
