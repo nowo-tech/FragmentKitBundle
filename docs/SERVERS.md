@@ -2,6 +2,13 @@
 
 FragmentKitBundle does **not** expose public HTTP endpoints. It decorates Symfony’s internal `fragment.handler` used by Twig `render(controller(...))`.
 
+## Table of contents
+
+- [FrankenPHP / Caddy](#frankenphp--caddy)
+- [php-fpm + Nginx](#php-fpm--nginx)
+- [Checklist](#checklist)
+- [Related](#related)
+
 ## FrankenPHP / Caddy
 
 Ensure all application requests reach `public/index.php` (standard Symfony front controller). No special Caddy routes are required for this bundle.

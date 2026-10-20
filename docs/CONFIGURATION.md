@@ -12,6 +12,13 @@ nowo_fragment_kit:
     level: warning   # debug|info|warning|error|fatal
 ```
 
+## Table of contents
+
+- [Options](#options)
+- [Disable resilience](#disable-resilience)
+- [Custom fallback](#custom-fallback)
+- [Disable Sentry only](#disable-sentry-only)
+
 ## Options
 
 | Key | Type | Default | Description |

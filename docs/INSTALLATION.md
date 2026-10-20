@@ -8,6 +8,7 @@
 - [Flex recipe](#flex-recipe)
 - [Framework fragments](#framework-fragments)
 - [Docker development (bundle contributors)](#docker-development-bundle-contributors)
+- [Twig Extra Bundle (REQ-TWIG-004)](#twig-extra-bundle-req-twig-004)
 
 ## Requirements
 

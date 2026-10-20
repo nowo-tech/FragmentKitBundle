@@ -17,6 +17,8 @@ There is no separate executable spec language (for example Gherkin); Spec Kit sp
 - [Suggested workflow for contributors](#suggested-workflow-for-contributors)
 - [Relationship to Engram / Spec Kit](#relationship-to-engram--spec-kit)
 - [Public API (integrator-facing)](#public-api-integrator-facing)
+- [GitHub Spec Kit (summary)](#github-spec-kit-summary)
+- [See also](#see-also)
 
 ---
 
@@ -102,3 +104,24 @@ When you change scripted behavior, **update the existing `REQ-*` comment** if th
 | `@NowoFragmentKitBundle/fragment_failure.html.twig` | Default fallback; overridable via `templates/bundles/…` |
 | `FragmentFailureReporterInterface` | Null + optional Sentry implementations |
 | `ResilientFragmentHandler` | Decorates `fragment.handler` when enabled |
+
+## GitHub Spec Kit (summary)
+
+This repository uses [GitHub Spec Kit](https://github.com/github/spec-kit) with the **Cursor Agent** integration (`cursor-agent`).
+
+| Artifact | Path |
+| --- | --- |
+| Baseline spec | [`specs/001-baseline/spec.md`](../specs/001-baseline/spec.md) |
+| Code inventory (100% of `src/`) | [`specs/001-baseline/code-inventory.md`](../specs/001-baseline/code-inventory.md) |
+| Constitution | [`.specify/memory/constitution.md`](../.specify/memory/constitution.md) |
+| Cursor skills | `.cursor/skills/speckit-*` |
+
+Re-initialize with `specify init --here --force --integration cursor-agent --script sh`. When production code under `src/` changes, update the baseline spec and inventory in the same PR (see the maintainer checklist in [SPEC-KIT.md](SPEC-KIT.md)).
+
+**How to install, initialize, and use Spec Kit:** [SPEC-KIT.md](SPEC-KIT.md).
+
+## See also
+
+- [SPEC-KIT.md](SPEC-KIT.md) — GitHub Spec Kit manual
+- [`specs/001-baseline/spec.md`](../specs/001-baseline/spec.md) — baseline functional spec
+- [USAGE.md](USAGE.md) · [CONFIGURATION.md](CONFIGURATION.md) · [CONTRIBUTING.md](CONTRIBUTING.md) · [RELEASE.md](RELEASE.md)

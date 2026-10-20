@@ -8,6 +8,17 @@
 | Method | Manual review of every file under `src/` (fragment handler decorator, services, Sentry reporter, DI extension, compiler pass, `Resources/config/services.yaml`, fallback template) + PHPStan FrankenPHP classic/worker rulesets |
 | **Verdict** | ✅ **Compatible** with FrankenPHP worker when the kernel is **not** reset between requests (`FRANKENPHP_RESET_KERNEL` unset or `0`). Every shared service is `final` / `final readonly` or holds only injected collaborators; request data is read from `RequestStack` per call and never stored. |
 
+## Table of contents
+
+- [Execution model assumed](#execution-model-assumed)
+- [Summary](#summary)
+- [Services reviewed](#services-reviewed)
+- [Findings](#findings)
+  - [W-01 — The decorator inherits `FragmentHandler` state that it never uses (Info)](#w-01--the-decorator-inherits-fragmenthandler-state-that-it-never-uses-info)
+  - [W-02 — Sentry tags and extras are set inside an isolated scope (Info)](#w-02--sentry-tags-and-extras-are-set-inside-an-isolated-scope-info)
+- [Usage recommendations in worker mode](#usage-recommendations-in-worker-mode)
+- [Re-audit triggers](#re-audit-triggers)
+
 ## Execution model assumed
 
 FrankenPHP worker mode boots the Symfony kernel once per worker and serves many requests with the same container. Symfony Runtime default is **kernel reused** (`FRANKENPHP_RESET_KERNEL` unset/false). Setting `FRANKENPHP_RESET_KERNEL=1` clones the application after each request (escape hatch; lower throughput). This audit targets the **strict** default:

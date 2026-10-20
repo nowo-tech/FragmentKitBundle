@@ -6,9 +6,11 @@ Thank you for contributing to FragmentKitBundle.
 
 - [Setup](#setup)
 - [Git hygiene (REQ-GIT-001)](#git-hygiene-req-git-001)
+- [Cursor Agent](#cursor-agent)
 - [Quality checks](#quality-checks)
 - [Code of Conduct](#code-of-conduct)
 - [Pull requests](#pull-requests)
+- [AI co-author trailers](#ai-co-author-trailers)
 
 ## Setup
 
@@ -38,6 +40,23 @@ git push --force-with-lease origin main
 ```
 
 See [GITHUB_CI.md](GITHUB_CI.md) and `.cursor/rules/01-git-commits.mdc`.
+
+Maintainers run `make check-no-cursor-coauthor` **after** creating a release commit and **before** `git push` (REQ-GIT-001): an earlier `release-check` run does not cover the release commit itself.
+
+## Cursor Agent
+
+Contributors using Cursor Agent on this repository should enable these user-level settings (REQ-IDE-006):
+
+1. **Submit with Ctrl + Enter** (macOS: **⌘ + Enter**) — Cursor Settings → Agents / Chat. Enter inserts a newline; Ctrl/⌘+Enter submits.
+2. **Queue follow-ups** in user `settings.json` (Linux `~/.config/Cursor/User/settings.json`, Windows `%APPDATA%\Cursor\User\settings.json`, macOS `~/Library/Application Support/Cursor/User/settings.json`):
+
+```json
+{
+  "cursor.composer.queueMessageDefaultBehavior": "queue"
+}
+```
+
+Do not use `"steer"` as the default: it interrupts a running agent turn.
 
 ## Quality checks
 

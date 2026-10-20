@@ -8,7 +8,7 @@ assignees: ''
 ---
 
 <!--
-- Please do not report an issue for a version of `fragment-kit-bundle` that is no longer supported.
+- Please do not report an issue for a version of `fragment-kit-bundle` that is no longer supported. Currently supported versions are listed here: https://github.com/nowo-tech/FragmentKitBundle#version-information
 - Please fill in this template according to your issue.
 - Please keep the table shown below at the top of your issue.
 - You can retrieve `fragment-kit-bundle` version by running `composer info | grep "fragment-kit-bundle"`.
@@ -19,9 +19,9 @@ assignees: ''
 
 | Q                           | A
 | ----------------------------| -----------------------
-| `FragmentKitBundle` version      | x.y.z
+| `FragmentKitBundle` version        | x.y.z
 | PHP version                 | x.y.z
-| Symfony version             | x.y.z
+| Database                    | MySQL / PostgreSQL / SQLite / Other
 
 #### Summary
 

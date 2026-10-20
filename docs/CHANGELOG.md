@@ -26,6 +26,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+### Changed
+
+- Documentation: wave-1 REQ compliance — README documentation list order, GitHub stars badge image slug and canonical FrankenPHP worker claim, canonical issue templates, CONTRIBUTING Cursor Agent queue settings, TOCs for long docs, DEMO-FRANKENPHP dev/prod start and troubleshooting, Engram ↔ spec-driven cross-reference, full GitHub Spec Kit manual, baseline spec (US-*, grouped FR-*, SC-*, non-goals, validation) and inventory refresh (13/13).
+
 ## [1.3.1] - 2026-10-13
 
 ### Changed
