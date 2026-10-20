@@ -11,6 +11,9 @@ use Throwable;
  */
 final readonly class FragmentFailureContext
 {
+    /**
+     * Captures the exception, status code and fragment / parent route data of the failed render.
+     */
     public function __construct(
         public Throwable $exception,
         public int $statusCode,

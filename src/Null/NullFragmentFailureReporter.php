@@ -14,6 +14,9 @@ use Nowo\FragmentKitBundle\Model\FragmentFailureContext;
  */
 final readonly class NullFragmentFailureReporter implements FragmentFailureReporterInterface
 {
+    /**
+     * Ignores the failure (default reporter when no error tracker is configured).
+     */
     public function report(FragmentFailureContext $context): void
     {
     }

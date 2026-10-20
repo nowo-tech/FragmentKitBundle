@@ -12,12 +12,18 @@ use Twig\Environment;
  */
 final readonly class FragmentFailureRenderer
 {
+    /**
+     * Uses the configured fallback template (null or empty: render nothing).
+     */
     public function __construct(
         private Environment $twig,
         private ?string $template,
     ) {
     }
 
+    /**
+     * Renders the fallback template for the given failure context (empty string when no template is configured).
+     */
     public function render(FragmentFailureContext $context): string
     {
         if ($this->template === null || $this->template === '') {

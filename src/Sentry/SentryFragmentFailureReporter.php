@@ -26,6 +26,9 @@ final readonly class SentryFragmentFailureReporter implements FragmentFailureRep
     ) {
     }
 
+    /**
+     * Sends the failure to Sentry (when a hub is available and reporting is enabled) with fragment tags and extras.
+     */
     public function report(FragmentFailureContext $context): void
     {
         if (!$this->hub instanceof HubInterface || !$this->config['enabled']) {

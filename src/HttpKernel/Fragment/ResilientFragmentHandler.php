@@ -28,6 +28,9 @@ use Throwable;
  */
 final class ResilientFragmentHandler extends FragmentHandler
 {
+    /**
+     * Wraps the core fragment handler so a failing sub-request renders a fallback instead of breaking the page.
+     */
     public function __construct(
         private readonly FragmentHandler $inner,
         RequestStack $requestStack,
@@ -39,6 +42,9 @@ final class ResilientFragmentHandler extends FragmentHandler
         parent::__construct($requestStack, [], $debug);
     }
 
+    /**
+     * Adds a fragment renderer to the decorated core handler.
+     */
     public function addRenderer(FragmentRendererInterface $renderer): void
     {
         $this->inner->addRenderer($renderer);

@@ -14,6 +14,9 @@ final class Configuration implements ConfigurationInterface
 {
     public const ALIAS = 'nowo_fragment_kit';
 
+    /**
+     * Builds the nowo_fragment_kit configuration tree.
+     */
     public function getConfigTreeBuilder(): TreeBuilder
     {
         $treeBuilder = new TreeBuilder(self::ALIAS);

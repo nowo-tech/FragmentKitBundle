@@ -28,6 +28,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Changed
 
+- PHPDoc description on every public method of `src/` (REQ-CS-001).
+- Demo `symfony8`: PHP `>=8.4` and `symfony/*` `^8.1` (Symfony 8.1 floor, Flex pin `8.1.*`) (REQ-DEMO-012).
+- Rector findings applied so `rector-dry` passes again; Rector capped at 2 parallel workers (REQ-CS-003).
+- Demo entrypoint waits for `vendor/autoload_runtime.php` before starting FrankenPHP, so `make up` works on a clean checkout in worker mode (the container used to exit before `composer install`).
+- `.scripts/check-no-cursor-coauthor.sh` accepts git worktrees (REQ-GIT-001).
 - Dependencies refreshed (Composer and pnpm/npm lock files of the bundle and its demos, campaign 2026-10-19).
 - `.php-cs-fixer.dist.php`: `new ParallelConfig(2)` (REQ-CS-001).
 - Documentation: wave-1 REQ compliance — README documentation list order, GitHub stars badge image slug and canonical FrankenPHP worker claim, canonical issue templates, CONTRIBUTING Cursor Agent queue settings, TOCs for long docs, DEMO-FRANKENPHP dev/prod start and troubleshooting, Engram ↔ spec-driven cross-reference, full GitHub Spec Kit manual, baseline spec (US-*, grouped FR-*, SC-*, non-goals, validation) and inventory refresh (13/13).

@@ -15,12 +15,18 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
  */
 final class NowoFragmentKitBundle extends Bundle
 {
+    /**
+     * Registers the bundle compiler passes.
+     */
     public function build(ContainerBuilder $container): void
     {
         parent::build($container);
         $container->addCompilerPass(new TwigPathsPass());
     }
 
+    /**
+     * Returns the bundle extension (alias nowo_fragment_kit).
+     */
     public function getContainerExtension(): ExtensionInterface
     {
         // @igor-ignore - Symfony bundle extension lazy-init at boot; not request state

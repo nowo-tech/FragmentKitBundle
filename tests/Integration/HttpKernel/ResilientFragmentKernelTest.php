@@ -109,7 +109,7 @@ final class ResilientFragmentKernelTest extends TestCase
      */
     private function chainContains(Throwable $exception, string $class): bool
     {
-        for ($current = $exception; $current !== null; $current = $current->getPrevious()) {
+        for ($current = $exception; $current instanceof Throwable; $current = $current->getPrevious()) {
             if ($current instanceof $class) {
                 return true;
             }

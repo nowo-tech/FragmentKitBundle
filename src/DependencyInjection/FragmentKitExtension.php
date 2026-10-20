@@ -19,11 +19,17 @@ use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
  */
 final class FragmentKitExtension extends Extension
 {
+    /**
+     * Returns the configuration alias (nowo_fragment_kit).
+     */
     public function getAlias(): string
     {
         return Configuration::ALIAS;
     }
 
+    /**
+     * Exposes the processed configuration as parameters, loads the services and wires the failure reporter (handler removed when disabled).
+     */
     public function load(array $configs, ContainerBuilder $container): void
     {
         $config = $this->processConfiguration(new Configuration(), $configs);

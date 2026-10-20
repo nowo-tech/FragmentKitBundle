@@ -17,6 +17,9 @@ use Throwable;
  */
 final readonly class FragmentFailureContextFactory
 {
+    /**
+     * Uses the request stack (parent page data) and the optional fragment URI generator.
+     */
     public function __construct(
         private RequestStack $requestStack,
         private ?FragmentUriGeneratorInterface $fragmentUriGenerator = null,
@@ -59,7 +62,6 @@ final readonly class FragmentFailureContextFactory
             exception: $exception,
             statusCode: $this->resolveStatusCode($exception),
             fragmentUri: $fragment instanceof ControllerReference ? $this->generateFragmentUri($fragment, $parentRequest) : $fragment,
-            route: null,
             parentRoute: $parentRequest instanceof Request ? $parentRequest->attributes->getString('_route') ?: null : null,
             parentUri: $parentRequest instanceof Request ? $parentRequest->getRequestUri() : null,
             controller: $fragment instanceof ControllerReference ? $fragment->controller : null,
@@ -68,7 +70,7 @@ final readonly class FragmentFailureContextFactory
 
     private function generateFragmentUri(ControllerReference $controller, ?Request $parentRequest): ?string
     {
-        if ($this->fragmentUriGenerator === null) {
+        if (!$this->fragmentUriGenerator instanceof FragmentUriGeneratorInterface) {
             return null;
         }
 

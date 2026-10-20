@@ -17,5 +17,8 @@ use Symfony\Contracts\Service\ResetInterface;
  */
 interface FragmentFailureReporterInterface
 {
+    /**
+     * Reports a failed fragment render (log, error tracker, …); must not throw.
+     */
     public function report(FragmentFailureContext $context): void;
 }
