@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 ## Table of contents
 
 - [[Unreleased]](#unreleased)
+- [[1.3.2] - 2026-10-21](#132---2026-10-21)
 - [[1.3.1] - 2026-10-13](#131---2026-10-13)
 - [[1.3.0] - 2026-10-13](#130---2026-10-13)
 - [[1.2.6] - 2026-10-09](#126---2026-10-09)
@@ -26,6 +27,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [1.3.2] - 2026-10-21
+
+Wave-2 REQ compliance: PHPDoc on public API, rector-dry green, demo on Symfony 8.1 with a clean-checkout boot fix. See [UPGRADING](UPGRADING.md#to-132).
+
 ### Changed
 
 - PHPDoc description on every public method of `src/` (REQ-CS-001).
@@ -36,6 +41,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 - Dependencies refreshed (Composer and pnpm/npm lock files of the bundle and its demos, campaign 2026-10-19).
 - `.php-cs-fixer.dist.php`: `new ParallelConfig(2)` (REQ-CS-001).
 - Documentation: wave-1 REQ compliance — README documentation list order, GitHub stars badge image slug and canonical FrankenPHP worker claim, canonical issue templates, CONTRIBUTING Cursor Agent queue settings, TOCs for long docs, DEMO-FRANKENPHP dev/prod start and troubleshooting, Engram ↔ spec-driven cross-reference, full GitHub Spec Kit manual, baseline spec (US-*, grouped FR-*, SC-*, non-goals, validation) and inventory refresh (13/13).
+
+[1.3.2]: https://github.com/nowo-tech/FragmentKitBundle/releases/tag/v1.3.2
 
 ## [1.3.1] - 2026-10-13
 
