@@ -64,6 +64,16 @@ The bundle registers Twig namespace **`NowoFragmentKitBundle`** via `TwigPathsPa
 
 Symfony will load the app file under `templates/bundles/NowoFragmentKitBundle/` before the bundle’s shipped view.
 
+| `<subpath>` (under `src/Resources/views/`) | Purpose |
+| ------------------------------------------ | ------- |
+| `fragment_failure.html.twig` | Default fallback rendered when a fragment fails (empty output by default so production pages stay quiet). |
+
+**Override vs upgrade (freeze rule).** An application file at the override path always wins and will not pick up vendor changes for that path until removed or merged. A full-file override is an escape hatch: that `<subpath>` stays frozen on every `composer update` while the rest of the bundle keeps upgrading.
+
+Prefer the upgrade-safe path: point `nowo_fragment_kit.fallback.template` at your **own** application template (e.g. `fragment/unavailable.html.twig`, see [Fallback template variables](#fallback-template-variables)) instead of overriding the bundle file. Your template receives the same variables and the bundle default stays untouched.
+
+**Recovering upstream after a freeze:** delete (or rename aside) the application override, clear the cache (`php bin/console cache:clear`), and re-apply only the customisation you still need. Diff your copy against the new vendor file under `vendor/nowo-tech/fragment-kit-bundle/src/Resources/views/` before re-copying.
+
 ## Sentry
 
 Requires `sentry/sentry-symfony`. Events are tagged with:

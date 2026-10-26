@@ -27,6 +27,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+### Changed
+
+- Docs (REQ-TWIG-001): USAGE states the override freeze rule (an application file at the override path always wins and does not pick up vendor changes until removed or merged), the upgrade-safe alternatives and how to recover the vendor template, with the table of overridable templates.
+
 ## [1.3.2] - 2026-10-21
 
 Wave-2 REQ compliance: PHPDoc on public API, rector-dry green, demo on Symfony 8.1 with a clean-checkout boot fix. See [UPGRADING](UPGRADING.md#to-132).
