@@ -93,6 +93,44 @@ final class ResilientFragmentKernelTest extends TestCase
         self::assertCount(2, $this->reporter()->reports);
     }
 
+    /**
+     * Worker mode without kernel reset: one booted kernel serves many pages whose fragments fail while the host
+     * reporter throws; every page still renders its own fallback and memory stays flat.
+     */
+    public function testManyRequestsWithAThrowingReporterOnOneKernelKeepMemoryFlat(): void
+    {
+        $this->kernel = new FragmentTestKernel('test', false);
+        $this->kernel->boot();
+        $reporter        = $this->reporter();
+        $reporter->throw = true;
+
+        $page = function (string $path) use ($reporter): string {
+            $response = $this->kernel?->handle(Request::create($path), HttpKernelInterface::MAIN_REQUEST, false);
+            self::assertNotNull($response);
+            self::assertSame(200, $response->getStatusCode());
+            $last = end($reporter->reports);
+            self::assertNotFalse($last);
+            self::assertSame($path, $last->parentUri, 'the report carries this request, not a previous one');
+            $reporter->reports = [];
+
+            return (string) $response->getContent();
+        };
+
+        for ($i = 0; $i < 100; ++$i) {
+            $page($i % 2 === 0 ? '/tolerant' : '/alt');
+        }
+        gc_collect_cycles();
+        $baseline = memory_get_usage();
+
+        for ($i = 0; $i < 1000; ++$i) {
+            $content = $page($i % 2 === 0 ? '/tolerant' : '/alt');
+            self::assertStringContainsString($i % 2 === 0 ? '|page_tolerant|' : '|page_alt|', $content);
+        }
+        gc_collect_cycles();
+
+        self::assertLessThan(512 * 1024, memory_get_usage() - $baseline);
+    }
+
     private function request(string $path, bool $debug = false, bool $reporterThrows = false): string
     {
         $this->kernel = new FragmentTestKernel($debug ? 'test_debug' : 'test', $debug);
