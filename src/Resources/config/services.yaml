@@ -25,3 +25,4 @@ services:
     arguments:
       $inner: '@.inner'
       $debug: '%kernel.debug%'
+      $logger: '@?logger'

@@ -12,6 +12,7 @@ use Nowo\FragmentKitBundle\Service\FragmentFailureContextFactory;
 use Nowo\FragmentKitBundle\Service\FragmentFailureRenderer;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
+use Psr\Log\LoggerInterface;
 use RuntimeException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -19,6 +20,8 @@ use Symfony\Component\HttpKernel\Controller\ControllerReference;
 use Symfony\Component\HttpKernel\Fragment\FragmentHandler;
 use Symfony\Component\HttpKernel\Fragment\FragmentRendererInterface;
 use Twig\Environment;
+
+use const JSON_THROW_ON_ERROR;
 
 #[CoversClass(ResilientFragmentHandler::class)]
 final class ResilientFragmentHandlerTest extends TestCase
@@ -141,6 +144,58 @@ final class ResilientFragmentHandlerTest extends TestCase
             ->render('/fragment', 'esi', ['ignore_errors' => true, 'alt' => '/alt']);
 
         $this->assertSame('<esi:include src="/fragment" alt="/alt" onerror="continue" />', $result);
+    }
+
+    public function testThrowingReporterIsLoggedWithoutPiiAndFallbackStillRenders(): void
+    {
+        $inner = $this->createMock(FragmentHandler::class);
+        $inner->method('render')->willThrowException(new LogicException('secret user@example.test'));
+
+        $reporter = $this->createMock(FragmentFailureReporterInterface::class);
+        $reporter->expects($this->once())->method('report')
+            ->willThrowException(new RuntimeException('reporter down for user@example.test'));
+
+        $twig = $this->createMock(Environment::class);
+        $twig->method('render')->willReturn('<div>fallback</div>');
+
+        /** @var array<string, mixed> $logged */
+        $logged = [];
+        $logger = $this->createMock(LoggerInterface::class);
+        $logger->expects($this->once())->method('error')
+            ->willReturnCallback(static function (string $message, array $context) use (&$logged): void {
+                $logged = ['message' => $message] + $context;
+            });
+
+        $handler = new ResilientFragmentHandler(
+            $inner,
+            new RequestStack(),
+            new FragmentFailureContextFactory(new RequestStack()),
+            new FragmentFailureRenderer($twig, 'fragment/unavailable.html.twig'),
+            $reporter,
+            false,
+            $logger,
+        );
+
+        $this->assertSame(
+            '<div>fallback</div>',
+            $handler->render(new ControllerReference('App\\Controller\\Widget::index'), 'inline', ['ignore_errors' => true]),
+        );
+        $this->assertSame(RuntimeException::class, $logged['reporter_error']);
+        $this->assertSame(LogicException::class, $logged['fragment_error']);
+        $this->assertSame(500, $logged['status_code']);
+        $this->assertSame('App\\Controller\\Widget::index', $logged['controller']);
+        $this->assertStringNotContainsString('user@example.test', json_encode($logged, JSON_THROW_ON_ERROR));
+    }
+
+    public function testThrowingReporterWithoutLoggerStillRendersFallback(): void
+    {
+        $inner = $this->createMock(FragmentHandler::class);
+        $inner->method('render')->willThrowException(new LogicException('boom'));
+
+        $reporter = $this->createMock(FragmentFailureReporterInterface::class);
+        $reporter->method('report')->willThrowException(new RuntimeException('reporter down'));
+
+        $this->assertSame('', $this->createHandler($inner, $reporter)->render('/fragment'));
     }
 
     public function testAddRendererDelegatesToInnerHandler(): void

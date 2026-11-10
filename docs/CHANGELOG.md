@@ -27,6 +27,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+Target 1.3.3.
+
+### Fixed
+
+- A failure reporter that throws (a host `FragmentFailureReporterInterface` adapter, or Sentry while reporting) no longer breaks the parent page: `ResilientFragmentHandler` catches the error, logs it on the PSR-3 `logger` (when present) without PII (reporter, error and fragment exception class names, status code and controller only; no message or URI) and still renders the fallback. Affected: 1.0.0–1.3.2.
+- `psr/log` (`^1.1 || ^2.0 || ^3.0`) is now a direct requirement (it was already installed through `symfony/http-kernel`).
+
 ### Changed
 
 - Docs (REQ-TWIG-001): USAGE states the override freeze rule (an application file at the override path always wins and does not pick up vendor changes until removed or merged), the upgrade-safe alternatives and how to recover the vendor template, with the table of overridable templates.

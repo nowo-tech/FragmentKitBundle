@@ -84,10 +84,20 @@ final class ResilientFragmentKernelTest extends TestCase
         }
     }
 
-    private function request(string $path, bool $debug = false): string
+    public function testThrowingHostReporterDoesNotBreakTheParentPage(): void
+    {
+        $content = $this->request('/tolerant', reporterThrows: true);
+
+        self::assertStringContainsString('[FALLBACK(500|' . self::BOOM . '|page_tolerant|no-route)', $content);
+        self::assertStringContainsString('[ALT-OK]', $content);
+        self::assertCount(2, $this->reporter()->reports);
+    }
+
+    private function request(string $path, bool $debug = false, bool $reporterThrows = false): string
     {
         $this->kernel = new FragmentTestKernel($debug ? 'test_debug' : 'test', $debug);
         $this->kernel->boot();
+        $this->reporter()->throw = $reporterThrows;
 
         $response = $this->kernel->handle(Request::create($path), HttpKernelInterface::MAIN_REQUEST, false);
         self::assertSame(200, $response->getStatusCode());

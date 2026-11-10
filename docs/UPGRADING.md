@@ -44,6 +44,16 @@
 
 ## Unreleased
 
+### To 1.3.3
+
+From **1.3.2**:
+
+```bash
+composer update nowo-tech/fragment-kit-bundle
+```
+
+- No configuration change. A throwing failure reporter is now caught: the fallback renders and an `error` record is written on the `logger` service (class names, status code and controller; no message or URI). If you relied on a reporter exception to fail the page, throw from the fragment with `ignore_errors: false` instead.
+
 ## To 1.3.2
 
 From **1.3.1**:
