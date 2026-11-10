@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace Nowo\FragmentKitBundle\HttpKernel\Fragment;
 
 use Nowo\FragmentKitBundle\Contract\FragmentFailureReporterInterface;
+use Nowo\FragmentKitBundle\Model\FragmentFailureContext;
 use Nowo\FragmentKitBundle\Service\FragmentFailureContextFactory;
 use Nowo\FragmentKitBundle\Service\FragmentFailureRenderer;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpKernel\Controller\ControllerReference;
 use Symfony\Component\HttpKernel\Fragment\FragmentHandler;
@@ -23,6 +25,10 @@ use Throwable;
  * first, and any remaining failure is handled here. Like Symfony, `ignore_errors` defaults to
  * `!kernel.debug` when the option is not set.
  *
+ * A failure reporter that throws (host adapter, Sentry outage) never breaks the parent page: the
+ * error is logged without PII (class names and status code only, no message or URI) and the
+ * fallback is still rendered.
+ *
  * Worker-safe with kernel reuse (`FRANKENPHP_RESET_KERNEL` unset/false): collaborators are
  * readonly; rendering delegates to the inner handler; no per-request state is stored here.
  */
@@ -38,6 +44,7 @@ final class ResilientFragmentHandler extends FragmentHandler
         private readonly FragmentFailureRenderer $failureRenderer,
         private readonly FragmentFailureReporterInterface $failureReporter,
         private readonly bool $debug = false,
+        private readonly ?LoggerInterface $logger = null,
     ) {
         parent::__construct($requestStack, [], $debug);
     }
@@ -68,9 +75,27 @@ final class ResilientFragmentHandler extends FragmentHandler
             }
 
             $context = $this->contextFactory->fromException($exception, $uri);
-            $this->failureReporter->report($context);
+            $this->report($context);
 
             return $this->failureRenderer->render($context);
+        }
+    }
+
+    /**
+     * Reports the failure; a throwing reporter is logged (no PII) and never propagated.
+     */
+    private function report(FragmentFailureContext $context): void
+    {
+        try {
+            $this->failureReporter->report($context);
+        } catch (Throwable $reporterError) {
+            $this->logger?->error('Fragment failure reporter {reporter} threw {reporter_error}; fallback rendered.', [
+                'reporter'       => $this->failureReporter::class,
+                'reporter_error' => $reporterError::class,
+                'fragment_error' => $context->exception::class,
+                'status_code'    => $context->statusCode,
+                'controller'     => $context->controller,
+            ]);
         }
     }
 }
