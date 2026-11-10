@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 ## Table of contents
 
 - [[Unreleased]](#unreleased)
+- [[1.3.3] - 2026-11-10](#133---2026-11-10)
 - [[1.3.2] - 2026-10-21](#132---2026-10-21)
 - [[1.3.1] - 2026-10-13](#131---2026-10-13)
 - [[1.3.0] - 2026-10-13](#130---2026-10-13)
@@ -27,7 +28,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
-Target 1.3.3.
+## [1.3.3] - 2026-11-10
+
+A throwing host fragment reporter no longer breaks the page; the error is logged without PII. See [UPGRADING](https://github.com/nowo-tech/FragmentKitBundle/blob/v1.3.3/docs/UPGRADING.md#to-133).
+
 
 ### Fixed
 
@@ -38,6 +42,8 @@ Target 1.3.3.
 ### Changed
 
 - Docs (REQ-TWIG-001): USAGE states the override freeze rule (an application file at the override path always wins and does not pick up vendor changes until removed or merged), the upgrade-safe alternatives and how to recover the vendor template, with the table of overridable templates.
+
+[1.3.3]: https://github.com/nowo-tech/FragmentKitBundle/releases/tag/v1.3.3
 
 ## [1.3.2] - 2026-10-21
 
