@@ -3,8 +3,9 @@
 | Field | Value |
 |-------|-------|
 | Package | `nowo-tech/fragment-kit-bundle` (`symfony-bundle`) |
-| Audited revision | release **1.2.4** |
-| Audit date | 2026-09-24 |
+| Audited revision | release **1.3.4** (first audit 1.2.4) |
+| Audit date | 2026-09-24, refreshed 2026-11-12 (REQ-RUNTIME-002) |
+| Worker test | [`ResilientFragmentKernelTest::testManyRequestsWithAThrowingReporterOnOneKernelKeepMemoryFlat`](#worker-test-req-runtime-002): 1,100 requests through `http_kernel` (no services resetter) |
 | Method | Manual review of every file under `src/` (fragment handler decorator, services, Sentry reporter, DI extension, compiler pass, `Resources/config/services.yaml`, fallback template) + PHPStan FrankenPHP classic/worker rulesets |
 | **Verdict** | ✅ **Compatible** with FrankenPHP worker when the kernel is **not** reset between requests (`FRANKENPHP_RESET_KERNEL` unset or `0`). Every shared service is `final` / `final readonly` or holds only injected collaborators; request data is read from `RequestStack` per call and never stored. |
 
@@ -16,6 +17,7 @@
 - [Findings](#findings)
   - [W-01 — The decorator inherits `FragmentHandler` state that it never uses (Info)](#w-01--the-decorator-inherits-fragmenthandler-state-that-it-never-uses-info)
   - [W-02 — Sentry tags and extras are set inside an isolated scope (Info)](#w-02--sentry-tags-and-extras-are-set-inside-an-isolated-scope-info)
+- [Worker test (REQ-RUNTIME-002)](#worker-test-req-runtime-002)
 - [Usage recommendations in worker mode](#usage-recommendations-in-worker-mode)
 - [Re-audit triggers](#re-audit-triggers)
 
@@ -27,6 +29,12 @@ FrankenPHP worker mode boots the Symfony kernel once per worker and serves many 
 - **B — kernel not reset, no service reset relied upon:** nothing in this bundle needs `kernel.reset`; shared services only hold injected deps / compiled config.
 
 A bundle that is safe under **B** is safe under **A**, under `FRANKENPHP_RESET_KERNEL=1`, and under classic mode / PHP-FPM.
+
+Precondition, precisely: with the stock Symfony kernel, `FRANKENPHP_RESET_KERNEL=false` only stops the kernel from being
+cloned; `Kernel::handle()` still calls `services_resetter->reset()` before every request after the first, so that alone
+is scenario A. Scenario B (no reset at all) happens when a host removes, replaces or bypasses `services_resetter` (or
+drives `http_kernel` directly), in Messenger consumers started with `--no-reset`, and in long-running console commands.
+This bundle keeps no state, so it is correct in both.
 
 ## Summary
 
@@ -72,6 +80,23 @@ A bundle that is safe under **B** is safe under **A**, under `FRANKENPHP_RESET_K
 - **Recommendation:** keep using `withScope()`; do not switch to `configureScope()`, which would make the tags persist on the shared Hub.
 
 No other findings. The fallback path builds a new context and renders a template per failure; nothing survives the request.
+
+## Worker test (REQ-RUNTIME-002)
+
+`tests/Integration/HttpKernel/ResilientFragmentKernelTest.php::testManyRequestsWithAThrowingReporterOnOneKernelKeepMemoryFlat`
+(runs in `make test` / CI):
+
+- **Kernel:** one `FragmentTestKernel` booted once; every request goes through the `http_kernel` service and
+  `terminate()`, never `Kernel::handle()`, so the services resetter does not run between requests (scenario B).
+- **N:** 100 warm-up requests, then **1,000** measured requests, alternating two pages (`/tolerant` and `/alt`) whose
+  fragments fail while the host reporter throws.
+- **Assertions:** every page renders its own fallback (`|page_tolerant|` / `|page_alt|`), the last report of each
+  request carries that request's URI (never a previous one), and memory grows by less than **512 KiB** over the
+  1,000 measured requests.
+
+The bundle has no `ResetInterface` service, no boundary listener and no Doctrine. A host that disables or bypasses the
+services resetter must clear its own entity managers at every boundary (main request, Messenger message, console
+command); otherwise the identity map serves stale rows across requests (REQ-RUNTIME-002 rule 7).
 
 ## Usage recommendations in worker mode
 

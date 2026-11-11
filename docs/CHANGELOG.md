@@ -28,6 +28,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+Target: **1.3.4** (patch, tests and docs only; no runtime change).
+
+### Changed
+
+- REQ-RUNTIME-002 worker test: `ResilientFragmentKernelTest::testManyRequestsWithAThrowingReporterOnOneKernelKeepMemoryFlat`
+  now sends its 1,100 requests through the `http_kernel` service (plus `terminate()`) instead of `Kernel::handle()`,
+  which calls the services resetter before every request after the first. The resetter is now bypassed, as in a
+  host that removes or bypasses `services_resetter`; the test still passes unchanged (no state exposed). The 1.3.3
+  entry described it as `FRANKENPHP_RESET_KERNEL=false`, which with the stock kernel still runs the resetter.
+- `docs/FRANKENPHP-WORKER-AUDIT.md`: precise precondition, the worker test by name, and the host rule for Doctrine
+  entity managers.
+
 ## [1.3.3] - 2026-11-10
 
 A throwing host fragment reporter no longer breaks the page; the error is logged without PII. See [UPGRADING](https://github.com/nowo-tech/FragmentKitBundle/blob/v1.3.3/docs/UPGRADING.md#to-133).
