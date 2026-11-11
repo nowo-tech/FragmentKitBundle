@@ -3,6 +3,7 @@
 ## Table of contents
 
 - [Unreleased](#unreleased)
+- [To 1.3.4](#to-134)
 - [To 1.3.3](#to-133)
 - [To 1.3.2](#to-132)
 - [To 1.3.1](#to-131)
@@ -44,6 +45,14 @@
   - [After upgrading](#after-upgrading-1)
 
 ## Unreleased
+
+## To 1.3.4
+
+From **1.3.3**:
+
+```bash
+composer update nowo-tech/fragment-kit-bundle
+```
 
 ## To 1.3.3
 

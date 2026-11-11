@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 ## Table of contents
 
 - [[Unreleased]](#unreleased)
+- [[1.3.4] - 2026-11-12](#134---2026-11-12)
 - [[1.3.3] - 2026-11-10](#133---2026-11-10)
 - [[1.3.2] - 2026-10-21](#132---2026-10-21)
 - [[1.3.1] - 2026-10-13](#131---2026-10-13)
@@ -28,6 +29,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [1.3.4] - 2026-11-12
+
 Target: **1.3.4** (patch, tests and docs only; no runtime change).
 
 ### Changed
@@ -40,10 +43,11 @@ Target: **1.3.4** (patch, tests and docs only; no runtime change).
 - `docs/FRANKENPHP-WORKER-AUDIT.md`: precise precondition, the worker test by name, and the host rule for Doctrine
   entity managers.
 
+[1.3.4]: https://github.com/nowo-tech/FragmentKitBundle/releases/tag/v1.3.4
+
 ## [1.3.3] - 2026-11-10
 
 A throwing host fragment reporter no longer breaks the page; the error is logged without PII. See [UPGRADING](https://github.com/nowo-tech/FragmentKitBundle/blob/v1.3.3/docs/UPGRADING.md#to-133).
-
 
 ### Fixed
 
