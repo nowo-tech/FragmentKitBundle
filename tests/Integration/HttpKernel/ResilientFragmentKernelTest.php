@@ -13,6 +13,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\HttpKernel;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Throwable;
 
@@ -94,8 +95,10 @@ final class ResilientFragmentKernelTest extends TestCase
     }
 
     /**
-     * Worker mode without kernel reset: one booted kernel serves many pages whose fragments fail while the host
-     * reporter throws; every page still renders its own fallback and memory stays flat.
+     * REQ-RUNTIME-002 worker test: one booted kernel serves 1,100 pages through the `http_kernel` service directly, so
+     * the services resetter never runs between them (`Kernel::handle()` would call it before every request). The
+     * fragments fail while the host reporter throws; every page still renders its own fallback, every report carries
+     * its own request, and memory stays flat.
      */
     public function testManyRequestsWithAThrowingReporterOnOneKernelKeepMemoryFlat(): void
     {
@@ -103,10 +106,13 @@ final class ResilientFragmentKernelTest extends TestCase
         $this->kernel->boot();
         $reporter        = $this->reporter();
         $reporter->throw = true;
+        $httpKernel      = $this->kernel->getContainer()->get('http_kernel');
+        self::assertInstanceOf(HttpKernel::class, $httpKernel);
 
-        $page = function (string $path) use ($reporter): string {
-            $response = $this->kernel?->handle(Request::create($path), HttpKernelInterface::MAIN_REQUEST, false);
-            self::assertNotNull($response);
+        $page = static function (string $path) use ($reporter, $httpKernel): string {
+            $request  = Request::create($path);
+            $response = $httpKernel->handle($request, HttpKernelInterface::MAIN_REQUEST, false);
+            $httpKernel->terminate($request, $response);
             self::assertSame(200, $response->getStatusCode());
             $last = end($reporter->reports);
             self::assertNotFalse($last);
