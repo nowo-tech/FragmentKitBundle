@@ -1,6 +1,7 @@
 framework:
     secret: '%env(APP_SECRET)%'
     http_method_override: false
+    assets: ~
     handle_all_throwables: true
     php_errors:
         log: true

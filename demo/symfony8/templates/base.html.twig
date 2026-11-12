@@ -1,24 +1,19 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Fragment Kit Demo{% endblock %}</title>
-    <style>
-        body { font-family: system-ui, sans-serif; max-width: 48rem; margin: 2rem auto; padding: 0 1rem; line-height: 1.5; color: #0f172a; }
-        h1 { font-size: 1.75rem; }
-        h2 { font-size: 1.15rem; margin-top: 2rem; }
-        .panel { border: 1px solid #cbd5e1; border-radius: 0.5rem; padding: 1rem; margin: 0.75rem 0; background: #f8fafc; }
-        .fragment-ok { color: #166534; margin: 0; }
-        .fragment-fallback { color: #92400e; background: #fffbeb; border: 1px solid #fbbf24; border-radius: 0.375rem; padding: 0.75rem; margin: 0; }
-        code { font-size: 0.9em; }
-        footer { margin-top: 2rem; color: #64748b; font-size: 0.875rem; }
-    </style>
-</head>
-<body>
-    <main>
-        {% block body %}{% endblock %}
-    </main>
-    <footer>Fragment Kit Bundle · Symfony 8 FrankenPHP demo</footer>
-</body>
-</html>
+{#- REQ-DEMO-014: the demo shell is UiKit's admin layout with UiKit's default theme (nowo-ui.css from the bundle's own
+    asset package, no CSS framework, no CDN). The masthead lists the demo pages with the active item. -#}
+{% extends '@NowoUiKit/layout/admin.html.twig' %}
+
+{% block nowo_ui_document_title %}{% block title %}Fragment Kit Demo{% endblock %}{% endblock %}
+
+{% block nowo_ui_navigation %}
+    {% set _route = app.request.attributes.get('_route') %}
+    <header class="nowo-ui-header" data-testid="demo-masthead">
+        <a class="nowo-ui-brand" href="{{ path('app_home') }}">Fragment Kit Bundle · Symfony 8</a>
+        <nav class="nowo-ui-menu" aria-label="Demo">
+            {% for item in [{route: 'app_home', label: 'Fragments'}] %}
+                <a class="nowo-ui-link" href="{{ path(item.route) }}"{% if _route == item.route %} aria-current="page"{% endif %}>{{ item.label }}</a>
+            {% endfor %}
+        </nav>
+    </header>
+{% endblock %}
+
+{% block nowo_ui_content %}{% block body %}{% endblock %}{% endblock %}

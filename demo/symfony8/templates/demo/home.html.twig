@@ -2,27 +2,32 @@
 
 {% block title %}Fragment Kit Demo{% endblock %}
 
+{% block nowo_ui_page_header %}
+    {{ include(nowo_ui_partial('page_header'), {
+        title: 'Fragment Kit Demo',
+        intro: 'This page embeds Twig fragments with {ignore_errors: true}. Without this bundle, HTTP error statuses from sub-requests (403/404) still crash the parent with a 500. With FragmentKit, the parent stays healthy and the fallback template is rendered.',
+    }) }}
+{% endblock %}
+
 {% block body %}
-    <h1>Fragment Kit Demo</h1>
-    <p>
-        This page embeds Twig fragments with <code>{ignore_errors: true}</code>.
-        Without this bundle, HTTP error statuses from sub-requests (403/404) still
-        crash the parent with a 500. With FragmentKit, the parent stays healthy and
-        the fallback template is rendered.
-    </p>
+    <section class="nowo-ui-card">
+        <div class="nowo-ui-card__header"><h2 class="nowo-ui-card__title">Healthy fragment <span class="nowo-ui-badge nowo-ui-badge--success">200</span></h2></div>
+        <div class="nowo-ui-card__body">
+            {{ render(controller('App\\Controller\\DemoController::okFragment'), {ignore_errors: true}) }}
+        </div>
+    </section>
 
-    <h2>Healthy fragment</h2>
-    <div class="panel">
-        {{ render(controller('App\\Controller\\DemoController::okFragment'), {ignore_errors: true}) }}
-    </div>
+    <section class="nowo-ui-card">
+        <div class="nowo-ui-card__header"><h2 class="nowo-ui-card__title">Forbidden fragment <span class="nowo-ui-badge nowo-ui-badge--warning">403</span></h2></div>
+        <div class="nowo-ui-card__body">
+            {{ render(controller('App\\Controller\\DemoController::forbiddenFragment'), {ignore_errors: true}) }}
+        </div>
+    </section>
 
-    <h2>Forbidden fragment (HTTP 403)</h2>
-    <div class="panel">
-        {{ render(controller('App\\Controller\\DemoController::forbiddenFragment'), {ignore_errors: true}) }}
-    </div>
-
-    <h2>Missing fragment (HTTP 404)</h2>
-    <div class="panel">
-        {{ render(controller('App\\Controller\\DemoController::missingFragment'), {ignore_errors: true}) }}
-    </div>
+    <section class="nowo-ui-card">
+        <div class="nowo-ui-card__header"><h2 class="nowo-ui-card__title">Missing fragment <span class="nowo-ui-badge nowo-ui-badge--warning">404</span></h2></div>
+        <div class="nowo-ui-card__body">
+            {{ render(controller('App\\Controller\\DemoController::missingFragment'), {ignore_errors: true}) }}
+        </div>
+    </section>
 {% endblock %}
