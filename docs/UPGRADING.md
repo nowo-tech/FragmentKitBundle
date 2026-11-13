@@ -46,6 +46,10 @@
 
 ## Unreleased
 
+To the next minor (1.4.0): no code change and no action needed. The reporter SPI and the DDD host path are now documented in
+[ARCHITECTURE.md](ARCHITECTURE.md). To replace the reporter, alias
+`Nowo\FragmentKitBundle\Contract\FragmentFailureReporterInterface` to your service in `config/services.yaml`.
+
 ## To 1.3.4
 
 From **1.3.3**:

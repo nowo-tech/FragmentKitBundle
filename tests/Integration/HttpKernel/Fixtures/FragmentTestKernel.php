@@ -26,6 +26,15 @@ final class FragmentTestKernel extends Kernel
 
     public const PAGES = ['tolerant', 'alt', 'strict', 'default'];
 
+    /**
+     * @param bool $hostAlias When true the recording reporter is wired the way a host does it, with a plain
+     *                        `services` alias (no compiler pass), to prove the host's alias wins over the bundle's
+     */
+    public function __construct(string $environment, bool $debug, private readonly bool $hostAlias = false)
+    {
+        parent::__construct($environment, $debug);
+    }
+
     public function registerBundles(): iterable
     {
         yield new FrameworkBundle();
@@ -40,7 +49,7 @@ final class FragmentTestKernel extends Kernel
 
     public function getCacheDir(): string
     {
-        return sys_get_temp_dir() . '/nowo-fragment-kit-tests/' . $this->environment . '/cache';
+        return sys_get_temp_dir() . '/nowo-fragment-kit-tests/' . $this->environment . ($this->hostAlias ? '_alias' : '') . '/cache';
     }
 
     public function getLogDir(): string
@@ -50,6 +59,10 @@ final class FragmentTestKernel extends Kernel
 
     protected function build(ContainerBuilder $container): void
     {
+        if ($this->hostAlias) {
+            return;
+        }
+
         // Runs after the bundle extension aliased the reporter: swap in the recording one.
         $container->addCompilerPass(new class implements CompilerPassInterface {
             public function process(ContainerBuilder $container): void
@@ -81,6 +94,11 @@ final class FragmentTestKernel extends Kernel
         $services->set(FragmentTestController::class)->autowire()->public()->tag('controller.service_arguments');
         $services->set(RecordingFragmentFailureReporter::class)->public();
         $services->set('logger', NullLogger::class);
+
+        if ($this->hostAlias) {
+            // What a host writes in config/services.yaml: `Nowo\…\FragmentFailureReporterInterface: '@App\…\MyReporter'`.
+            $services->alias(FragmentFailureReporterInterface::class, RecordingFragmentFailureReporter::class);
+        }
     }
 
     protected function configureRoutes(RoutingConfigurator $routes): void

@@ -87,7 +87,7 @@ composer require sentry/sentry-symfony
 
 ## FrankenPHP worker
 
-This bundle is compatible with FrankenPHP **worker** when the Symfony kernel is **reused** between requests (`FRANKENPHP_RESET_KERNEL` unset or `0` — the Runtime default). Bundle services hold only injected collaborators / compiled configuration; they do not need `kernel.reset`. Custom `FragmentFailureReporterInterface` implementations must stay stateless (or implement `ResetInterface`) and must not buffer failure contexts.
+This bundle is compatible with FrankenPHP **worker** when the Symfony kernel is **reused** between requests (`FRANKENPHP_RESET_KERNEL` unset or `0` — the Runtime default). Bundle services hold only injected collaborators / compiled configuration; they do not need `kernel.reset`. Custom `FragmentFailureReporterInterface` implementations (the reporter SPI, see [Architecture](ARCHITECTURE.md#failure-reporter)) must stay stateless (or implement `ResetInterface`) and must not buffer failure contexts.
 
 See [FRANKENPHP-WORKER-AUDIT.md](FRANKENPHP-WORKER-AUDIT.md).
 

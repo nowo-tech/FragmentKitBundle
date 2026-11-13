@@ -29,6 +29,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+### Added
+
+- `docs/ARCHITECTURE.md`: the failure reporter SPI (`FragmentFailureReporterInterface` contract, shipped implementations, host alias override) and a "Standard Symfony and DDD hosts" section (REQ-ARCH-001 rule 5)
+- Kernel test: a plain host `services` alias replaces the reporter (no compiler pass needed)
+
 ### Changed
 
 - Demo uses the UiKit base style (REQ-DEMO-014)
