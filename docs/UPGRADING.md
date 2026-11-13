@@ -3,6 +3,7 @@
 ## Table of contents
 
 - [Unreleased](#unreleased)
+- [To 1.4.0](#to-140)
 - [To 1.3.4](#to-134)
 - [To 1.3.3](#to-133)
 - [To 1.3.2](#to-132)
@@ -45,6 +46,14 @@
   - [After upgrading](#after-upgrading-1)
 
 ## Unreleased
+
+## To 1.4.0
+
+From **1.3.4**:
+
+```bash
+composer update nowo-tech/fragment-kit-bundle
+```
 
 To the next minor (1.4.0): no code change and no action needed. The reporter SPI and the DDD host path are now documented in
 [ARCHITECTURE.md](ARCHITECTURE.md). To replace the reporter, alias

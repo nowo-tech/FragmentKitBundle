@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 ## Table of contents
 
 - [[Unreleased]](#unreleased)
+- [[1.4.0] - 2026-11-13](#140---2026-11-13)
 - [[1.3.4] - 2026-11-12](#134---2026-11-12)
 - [[1.3.3] - 2026-11-10](#133---2026-11-10)
 - [[1.3.2] - 2026-10-21](#132---2026-10-21)
@@ -29,6 +30,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [1.4.0] - 2026-11-13
+
 ### Added
 
 - `docs/ARCHITECTURE.md`: the failure reporter SPI (`FragmentFailureReporterInterface` contract, shipped implementations, host alias override) and a "Standard Symfony and DDD hosts" section (REQ-ARCH-001 rule 5)
@@ -37,6 +40,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 ### Changed
 
 - Demo uses the UiKit base style (REQ-DEMO-014)
+
+[1.4.0]: https://github.com/nowo-tech/FragmentKitBundle/releases/tag/v1.4.0
 
 ## [1.3.4] - 2026-11-12
 
