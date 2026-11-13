@@ -85,6 +85,22 @@ final class ResilientFragmentKernelTest extends TestCase
         }
     }
 
+    /**
+     * The reporter SPI is replaced by a plain host `services` alias (no compiler pass): the host alias wins over the
+     * alias the bundle extension sets, so a standard or DDD host plugs its own adapter in with one line of config.
+     */
+    public function testHostServicesAliasReplacesTheReporter(): void
+    {
+        $this->kernel = new FragmentTestKernel('test', false, hostAlias: true);
+        $this->kernel->boot();
+
+        $response = $this->kernel->handle(Request::create('/tolerant'), HttpKernelInterface::MAIN_REQUEST, false);
+
+        self::assertSame(200, $response->getStatusCode());
+        self::assertStringContainsString('[FALLBACK(500|' . self::BOOM . '|page_tolerant|no-route)', (string) $response->getContent());
+        self::assertCount(2, $this->reporter()->reports);
+    }
+
     public function testThrowingHostReporterDoesNotBreakTheParentPage(): void
     {
         $content = $this->request('/tolerant', reporterThrows: true);
