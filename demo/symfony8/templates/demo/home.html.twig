@@ -10,24 +10,18 @@
 {% endblock %}
 
 {% block body %}
-    <section class="nowo-ui-card">
-        <div class="nowo-ui-card__header"><h2 class="nowo-ui-card__title">Healthy fragment <span class="nowo-ui-badge nowo-ui-badge--success">200</span></h2></div>
-        <div class="nowo-ui-card__body">
-            {{ render(controller('App\\Controller\\DemoController::okFragment'), {ignore_errors: true}) }}
-        </div>
-    </section>
+    {% embed '@NowoUiKit/demo_platform/_section.html.twig' with {title: 'Healthy fragment', kind: 'detail', testid: 'demo-case-ok'} %}
+        {% block section_actions %}<span class="nowo-ui-badge nowo-ui-badge--success">200</span>{% endblock %}
+        {% block section_body %}{{ render(controller('App\\Controller\\DemoController::okFragment'), {ignore_errors: true}) }}{% endblock %}
+    {% endembed %}
 
-    <section class="nowo-ui-card">
-        <div class="nowo-ui-card__header"><h2 class="nowo-ui-card__title">Forbidden fragment <span class="nowo-ui-badge nowo-ui-badge--warning">403</span></h2></div>
-        <div class="nowo-ui-card__body">
-            {{ render(controller('App\\Controller\\DemoController::forbiddenFragment'), {ignore_errors: true}) }}
-        </div>
-    </section>
+    {% embed '@NowoUiKit/demo_platform/_section.html.twig' with {title: 'Forbidden fragment', kind: 'detail', testid: 'demo-case-forbidden'} %}
+        {% block section_actions %}<span class="nowo-ui-badge nowo-ui-badge--warning">403</span>{% endblock %}
+        {% block section_body %}{{ render(controller('App\\Controller\\DemoController::forbiddenFragment'), {ignore_errors: true}) }}{% endblock %}
+    {% endembed %}
 
-    <section class="nowo-ui-card">
-        <div class="nowo-ui-card__header"><h2 class="nowo-ui-card__title">Missing fragment <span class="nowo-ui-badge nowo-ui-badge--warning">404</span></h2></div>
-        <div class="nowo-ui-card__body">
-            {{ render(controller('App\\Controller\\DemoController::missingFragment'), {ignore_errors: true}) }}
-        </div>
-    </section>
+    {% embed '@NowoUiKit/demo_platform/_section.html.twig' with {title: 'Missing fragment', kind: 'detail', testid: 'demo-case-missing'} %}
+        {% block section_actions %}<span class="nowo-ui-badge nowo-ui-badge--warning">404</span>{% endblock %}
+        {% block section_body %}{{ render(controller('App\\Controller\\DemoController::missingFragment'), {ignore_errors: true}) }}{% endblock %}
+    {% endembed %}
 {% endblock %}

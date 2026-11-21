@@ -44,6 +44,6 @@ final class DemoController extends AbstractController
     #[Route(path: '/_fragment/ok', name: 'app_fragment_ok', methods: ['GET'])]
     public function okFragment(): Response
     {
-        return new Response('<p class="nowo-ui-flash nowo-ui-flash--success">Healthy fragment rendered OK.</p>');
+        return new Response('<p><span class="nowo-ui-badge nowo-ui-badge--success">OK</span> Healthy fragment rendered OK.</p>');
     }
 }
